@@ -4,7 +4,7 @@ BReATH project aims to create a interface to visualize and get insights relating
 
 # Authors
 
-- [Elton Cardoso do Nascimento](https://github.com/EltonCN)
-- [João Pedro de Moraes Bonucci]()
-- [Lucas Otávio Nascimento de Araújo]()
-- [Thiago Danilo Silva de Lacerda](https://github.com/ThiagoDSL)
+- [233840, Elton Cardoso do Nascimento](https://github.com/EltonCN)
+- [218733, João Pedro de Moraes Bonucci](https://github.com/Joao-Pedro-MB)
+- [240106, Lucas Otávio Nascimento de Araújo](https://github.com/Lucas-Otavio)
+- [244712, Thiago Danilo Silva de Lacerda](https://github.com/ThiagoDSL)
