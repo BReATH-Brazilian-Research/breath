@@ -3,7 +3,7 @@ import time, datetime
 import numpy as np
 
 # our components
-from menu import Menu
+from breath.menu import Menu
 
 Menu()
 
