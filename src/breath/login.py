@@ -19,6 +19,7 @@ class LogIn:
 
 
         # Título da página
+        st.title("We aim to help people with asthma improve their day using weather data.")
         st.title("Entre no nosso site!")
         st.text("Faça seu login ou realize seu cadastro.")
         
