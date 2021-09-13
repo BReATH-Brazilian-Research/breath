@@ -15,13 +15,18 @@ class Registrar:
 		#print(st.session_state.name, st.session_state.email, st.session_state.senha)
 		#print(st.session_state.senha_typed[0], st.session_state.senha_typed[1], st.session_state.senha_typed)
 
+		# Botão de Confirmação de concessão de direito de uso dos dados
+		st.checkbox("Autorizo o armazenamento e uso dos meus dados para os fins desse sistema", value=False, key="LGPD_checkbox")
+
 		# Botões
 		left_column, right_column = st.columns(2)
 		left_column.button("Login com Google", key="button_google_login")
 		right_column.button("Registrar", key="button_registrar")
 
 		# Interação com botão de registrar
-		if st.session_state.button_registrar == True:
+		if st.session_state.button_registrar == True and st.session_state.LGPD_checkbox == False:
+			st.write("É necessário autorizar o uso dos seus dados para realizar o cadastro.")
+		elif st.session_state.button_registrar == True and st.session_state.LGPD_checkbox == True:
 			st.session_state.name = st.session_state.name_typed
 			st.session_state.email = st.session_state.email_typed
 			st.session_state.senha = self.crypto(st.session_state.senha_typed)
