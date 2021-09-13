@@ -1,99 +1,71 @@
 import streamlit as st
 import pandas as pd
+import sqlite3 
+import hashlib
 
+from breath.user.registrar import Registrar
+from breath.user.oauth import google_oauth_login
+from breath.user.db import *
 
 # Security
 #passlib,hashlib,bcrypt,scrypt
-import hashlib
-def make_hashes(password):
-	return hashlib.sha256(str.encode(password)).hexdigest()
 
-def check_hashes(password,hashed_text):
-	if make_hashes(password) == hashed_text:
-		return hashed_text
-	return False
 # DB Management
-import sqlite3 
-conn = sqlite3.connect('data.db')
-c = conn.cursor()
+
+
 # DB  Functions
-def create_usertable():
-	c.execute('CREATE TABLE IF NOT EXISTS userstable(username TEXT,password TEXT)')
 
-
-def add_userdata(username,password):
-	c.execute('INSERT INTO userstable(username,password) VALUES (?,?)',(username,password))
-	conn.commit()
-
-def login_user(username,password):
-	c.execute('SELECT * FROM userstable WHERE username =? AND password = ?',(username,password))
-	data = c.fetchall()
-	return data
-
-
-def view_all_users():
-	c.execute('SELECT * FROM userstable')
-	data = c.fetchall()
-	return data
 
 
 
 def main():
-	"""Simple Login App"""
+    if "logado" not in st.session_state:
+        st.session_state.logado = False 
+    
+    conn = sqlite3.connect('data.db')
+    bd = BD(conn)
 
-	st.title("Simple Login App")
+    menu = ["Home", "Login", "Registrar"]
+    escolha = st.sidebar.selectbox("Menu", menu)
 
-	menu = ["Home","Login","SignUp"]
-	choice = st.sidebar.selectbox("Menu",menu)
+    if escolha == "Home":
+        st.subheader("Home")
 
-	if choice == "Home":
-		st.subheader("Home")
+    elif escolha == "Login":
+        st.subheader("Login")
 
-	elif choice == "Login":
-		st.subheader("Login Section")
+        if st.session_state.logado:
+            st.success("Você já está logado como {}".format(st.session_state.email))
+        else:
+            st.sidebar.button("Login com Google", key="button_google_login")   
 
-		username = st.sidebar.text_input("User Name")
-		password = st.sidebar.text_input("Password",type='password')
-		if st.sidebar.button("Login"):
-			# if password == '12345':
-			create_usertable()
-			hashed_pswd = make_hashes(password)
+            username = st.sidebar.text_input("Nome de usuário")
+            password = st.sidebar.text_input("Senha", type='password')
 
-			result = login_user(username,check_hashes(password,hashed_pswd))
-			if result:
+            if st.sidebar.button("Login") or st.session_state.button_google_login:
+                if st.session_state.button_google_login:
+                    google_oauth_login()
 
-				st.success("Logged In as {}".format(username))
+                    username = st.session_state.email
+                    password = st.session_state.senha
 
-				task = st.selectbox("Task",["Add Post","Analytics","Profiles"])
-				if task == "Add Post":
-					st.subheader("Add Your Post")
+                hashed_pswd = make_hashes(password)
 
-				elif task == "Analytics":
-					st.subheader("Analytics")
-				elif task == "Profiles":
-					st.subheader("User Profiles")
-					user_result = view_all_users()
-					clean_db = pd.DataFrame(user_result,columns=["Username","Password"])
-					st.dataframe(clean_db)
-			else:
-				st.warning("Incorrect Username/Password")
+                result = bd.login_user(username, check_hashes(password,hashed_pswd))
+                if result:
+                    st.success("Logado como {}".format(username))
+                else:
+                    st.warning("Login incorreto")
 
+    elif escolha == "Registrar":
+        Registrar()
 
-
-
-
-	elif choice == "SignUp":
-		st.subheader("Create New Account")
-		new_user = st.text_input("Username")
-		new_password = st.text_input("Password",type='password')
-
-		if st.button("Signup"):
-			create_usertable()
-			add_userdata(new_user,make_hashes(new_password))
-			st.success("You have successfully created a valid Account")
-			st.info("Go to Login Menu to login")
-
+        if st.session_state.logado:
+            bd.add_userdata(st.session_state.email,make_hashes(st.session_state.senha))
+            st.success("Você está logado")
 
 
 if __name__ == '__main__':
 	main()
+
+

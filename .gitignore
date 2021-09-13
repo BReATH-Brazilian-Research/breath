@@ -1,0 +1,9 @@
+client_secret*.json
+secret*.json
+token.json
+
+__pycache__
+
+*.egg-info
+
+data.db
