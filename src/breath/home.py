@@ -33,25 +33,29 @@ def main():
 
     elif escolha == "Login":
         st.subheader("Login")
-        st.sidebar.button("Login com Google", key="button_google_login")   
 
-        username = st.sidebar.text_input("Nome de usuário")
-        password = st.sidebar.text_input("Senha", type='password')
+        if st.session_state.logado:
+            st.success("Você já está logado como {}".format(st.session_state.email))
+        else:
+            st.sidebar.button("Login com Google", key="button_google_login")   
 
-        if st.sidebar.button("Login") or st.session_state.button_google_login:
-            if st.session_state.button_google_login:
-                google_oauth_login()
+            username = st.sidebar.text_input("Nome de usuário")
+            password = st.sidebar.text_input("Senha", type='password')
 
-                username = st.session_state.email
-                password = st.session_state.senha
+            if st.sidebar.button("Login") or st.session_state.button_google_login:
+                if st.session_state.button_google_login:
+                    google_oauth_login()
 
-            hashed_pswd = make_hashes(password)
+                    username = st.session_state.email
+                    password = st.session_state.senha
 
-            result = bd.login_user(username,check_hashes(password,hashed_pswd))
-            if result:
-                st.success("Logado como {}".format(username))
-            else:
-                st.warning("Login incorreto")
+                hashed_pswd = make_hashes(password)
+
+                result = bd.login_user(username, check_hashes(password,hashed_pswd))
+                if result:
+                    st.success("Logado como {}".format(username))
+                else:
+                    st.warning("Login incorreto")
 
     elif escolha == "Registrar":
         Registrar()
