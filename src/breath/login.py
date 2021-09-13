@@ -8,6 +8,16 @@ import hashlib as hl
 
 class LogIn:
     def __init__(self) -> None:
+        if 'email' not in st.session_state:
+            st.session_state.email = 0
+
+        if 'senha' not in st.session_state:
+            st.session_state.senha = 0
+
+        if 'google_login' not in st.session_state:
+            st.session_state.google_login = 0
+
+
         # Título da página
         st.title("Entre no nosso site!")
         st.text("Faça seu login ou realize seu cadastro.")
@@ -28,30 +38,24 @@ class LogIn:
             st.session_state.email = st.session_state.email_typed
             st.session_state.senha = self.crypto(st.session_state.senha_typed)
             
-            if self.__VerificaHash(self, self.__VerificaEmail) == True:
+            if self.__VerificaHash(self.__VerificaEmail) == True:
                 # Entra no app -> Proxima pagina
                 pass
             else:
                 print("Email ou Senha incorretos")
 
             st.session_state.google_login = False
-            st.session_state.button_cadastro = False
 
         #Interação com o botão de Cadastro
         if st.session_state.button_cadastro == True:
             # registrar.Registrar()
-            # Invoca o código do Lucas
-            # Vai pra pagina dele
-            pass
+            st.session_state.google_login = False
 
         # Interação com o botão de Login com o Google
-        if st.session_state.google_login == True:
+        if st.session_state.button_google_login == True:
           
             # oauth.google_oauth_login()
-          
-            st.session_state.button_login = False
-            st.session_state.button_cadastro = False
-          
+            pass
 
 
     def crypto(self, password):
