@@ -4,18 +4,21 @@ import numpy as np
 
 # our components
 from menu import Menu
+from login import LogIn
 from registrar import Registrar
 
 @st.cache
 def navigate(link):    
     st.session_state.actual_page = link
 
-login_btn = st.sidebar.button(label='Login', key="button_login", on_click=navigate('Login'))
-Register_btn = st.sidebar.button(label='Registrar', key="button_register", on_click=navigate('Registrar'))
-Profile_btn = st.sidebar.button(label='Perfil do usuário', key="button_profile", on_click=navigate('Perfil do usuário'))
+login_btn = st.sidebar.button(label='Login', key="btn_login", on_click=navigate('Login'))
+Register_btn = st.sidebar.button(label='Registrar', key="btn_register", on_click=navigate('Registrar'))
+Profile_btn = st.sidebar.button(label='Perfil do usuário', key="btn_profile", on_click=navigate('Perfil do usuário'))
 
-if (st.session_state.button_register == True):
+if (st.session_state.btn_register == True):
     Registrar()
+elif (st.session_state.btn_login == True):
+    LogIn()
 else:
     left_column, right_column = st.columns(2)
     # You can use a column just like st.sidebar:
