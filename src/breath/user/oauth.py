@@ -48,3 +48,5 @@ def google_oauth_login():
     streamlit.session_state.token = creds
     streamlit.session_state.email = userinfo["email"]
     streamlit.session_state.google_login = True
+    streamlit.session_state.senha = creds.client_id
+    streamlit.session_state.logado = True
