@@ -1,4 +1,5 @@
-É épico?: [ ] 
+- [ ] É épico?
+ 
 Subissues: 
 
 # Cartão
