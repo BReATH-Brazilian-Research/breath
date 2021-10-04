@@ -1,4 +1,4 @@
-- [ ] É épico?
+- É épico? Sim/Não
  
 Subissues: 
 
