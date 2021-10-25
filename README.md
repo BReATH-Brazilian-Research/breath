@@ -69,15 +69,5 @@ Description
 - SQL: 
 - Graph: 
 
-## Components
-
-
-### BD Acess Point
-
-### Generic Portal
-
-### Session Manager
-
-## Code
 
 
