@@ -26,7 +26,7 @@ The first set consists of an interface with geolocalized information about clima
 The second set of features show a widget that condensates the information of the climate and air quality. It also shows the consequences of those for the patient's symptoms. Besides offering some tips on how to avoid or mitigate them.
 A Session Manager will link the frontend services to the background services of Data workflow, Prediction, and Data requests from exterior sources. In addition, it is responsible for writing and retrieving data from relational and graph databases.
 
-## Container
+## Container and components
 
 _Container diagram_
 ![](images/Container.png) 
@@ -35,22 +35,22 @@ Our container level describes our **service-oriented architecture**. Each servic
 
 Within the some containers section we also have the component and code level description. We describe only the main and already designed components of the architecture, as some are related to features not yet started.
 
-## Components
 __Components diagram__
 ![](images/Components.png)
 
-_Components description_
+
+_Containers and Components description_
 ### Session Manager
-This component orchestrates service requests, and handles the login session.
+This container orchestrates service requests, and handles the login session.
 
 ### BReATH Map and Patient Portal:
  These Components have a Layering Structure that wants to be an MVC. Divided into View, the top layer, Model, the middle layer, and a ServiceProxy as the bottom layer and link with the session manager. We used the [Proxy](https://refactoring.guru/pt-br/design-patterns/proxy) Design Pattern because of the service request complexity.
 
 ### DataWorflow: 
-This component acts as a data formatter and validator before saving it into the database. Regarding this behavior, we used an [Adapter](https://refactoring.guru/design-patterns/adapter) design pattern to clean and reshape the data for the rest of the application.
+This container acts as a data formatter and validator before saving it into the database. Regarding this behavior, we used an [Adapter](https://refactoring.guru/design-patterns/adapter) design pattern to clean and reshape the data for the rest of the application.
 
 ### DataRequester: 
-This component is responsible for requesting and receiving data from external APIs. Due to the possible asynchrony of the task, we used the [Observer](https://refactoring.guru/design-patterns/observer) design pattern to make sure the rest of the application could continue without problems. However, we also decided to implement the [abstract factory](https://refactoring.guru/design-patterns/abstract-factory) design once we could switch APIs or add new ones in the future.
+This container is responsible for requesting and receiving data from external APIs. Due to the possible asynchrony of the task, we used the [Observer](https://refactoring.guru/design-patterns/observer) design pattern to make sure the rest of the application could continue without problems. However, we also decided to implement the [abstract factory](https://refactoring.guru/design-patterns/abstract-factory) design once we could switch APIs or add new ones in the future.
 
 ### Prediction:
 The Prediction module has an ML model, implemented in TensorFlow, used to predict in real-time the consequences of the climate and air quality over the symptoms and occurrences of respiratory diseases. As this is a central point of the application, it will receive a large number of requests. For this reason, we used a [Proxy](https://refactoring.guru/design-patterns/proxy) Design to help handle those.
@@ -62,10 +62,10 @@ The access point uses a [factory](https://refactoring.guru/design-patterns/abstr
 Handles the lifecycle of a request, from receiving it to sending its response.
 We used the [Chain of Responsibility](https://refactoring.guru/pt-br/design-patterns/chain-of-responsibility) design pattern to create it, as can be seen on its code diagram. Because we use Python, which supports multiple inheritance, we use an abstract class, as there is no difference between it and an interface.
 
-
-## Code
 __Code diagram__
 ![](images/Code.png)
+
+## ???
 
 Description
 
