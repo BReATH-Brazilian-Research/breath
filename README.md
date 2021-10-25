@@ -14,56 +14,61 @@ BReATH project aims to create a interface to visualize and get insights relating
 Our software system is architected using C4 and UML diagrams. This repository contains the main application and service management, with other services separated across multiple repositorys, containing our different Python modules. It was divided in this way to help manage the different activities of the disciplines linked to this project.
 
 _Imagem do diagrama PythonModules_
-![]() 
+![](images/PythonModules.png) 
 
 
 ## Context
-
-_Texto explicando o contexto_
-
 _Imagem do diagrama Contexto_
-![]() 
+![](images/Context.png) 
 
-## Container, components and code
+This project context consists of 3 stakeholders, the Patient, the Health Manager, and the Physicist/Medic, which have access to 2 different sets of features: the Map visualization and the patient portal. 
+The first set consists of an interface with geolocalized information about climate, respiratory diseases, air quality, and history of respiratory diseases through time by city. This service also estimates the number of cases for the following days through the air quality and climate information.
+The second set of features show a widget that condensates the information of the climate and air quality. It also shows the consequences of those for the patient's symptoms. Besides offering some tips on how to avoid or mitigate them.
+A Session Manager will link the frontend services to the background services of Data workflow, Prediction, and Data requests from exterior sources. In addition, it is responsible for writing and retrieving data from relational and graph databases.
+
+## Container
+
+_Imagem do diagrama Container_
+![](images/Container.png) 
 
 Our container level describes our **service-oriented architecture**. Each service realizes a set of operations, and is isolated in a different Python process. 
 
 Within the some containers section we also have the component and code level description. We describe only the main and already designed components of the architecture, as some are related to features not yet started.
 
-_Imagem do diagrama Container_
-![]() 
+## Components
+__Imagem do diagrama de componentes__
+![](images/Components.png)
 
 _Descrição da responsabilidade de cada componente/BD_
 ### Session Manager
-
 This component orchestrates service requests, and handles the login session.
 
-__Imagem do diagrama de componentes__
-![]()
+### BReATH Map and Patient Portal:
+ These Components have a Layering Structure that wants to be an MVC. Divided into View, the top layer, Model, the middle layer, and a ServiceProxy as the bottom layer and link with the session manager. We used the [Proxy](https://refactoring.guru/pt-br/design-patterns/proxy) Design Pattern because of the service request complexity.
 
+### DataWorflow: 
+
+### DataRequester: 
+
+### Prediction: 
+
+### BDAcessPoint:
+The access point uses a [factory](https://refactoring.guru/pt-br/design-patterns/factory-method) Design pattern for the two possible databases to make the queries faster. The Design is divided through the GraphQuerier, RelationalQuerier, and RequestProcessor, which is the factory controller.
 
 #### RequestSessionManager
-
 Handles the lifecycle of a request, from receiving it to sending its response.
-
 We used the [Chain of Responsibility](https://refactoring.guru/pt-br/design-patterns/chain-of-responsibility) design pattern to create it, as can be seen on its code diagram. Because we use Python, which supports multiple inheritance, we use an abstract class, as there is no difference between it and an interface.
 
+
+## Code
 __Imagem do diagrama de código__
-![]()
-
-
-
-### BReATH Map and Patient Portal: 
-### DataWorflow: 
-### DataRequester: 
-### Prediction: 
-### BDAcessPoint: 
+![](images/Code.png)
 
 Description
 
 - RequestProcesser:
-- GraphQuerier
-- RelationalQuerier
+- GraphQuerier:
+- RelationalQuerier:
 
 ### Databases:
 - SQL: 
