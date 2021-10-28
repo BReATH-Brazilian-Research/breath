@@ -14,10 +14,10 @@ class Login(QtWidgets.QDialog):
 		self.return_btn = QtWidgets.QPushButton('Return')
 		self.lgn_btn = QtWidgets.QPushButton('Login')
 		self.reg_btn = QtWidgets.QPushButton('Register')
-		# self.success_msg = QtWidgets.QLabel('Logado com sucesso!')
-		# self.success_msg.setStyleSheet("color:green")
+		self.success_msg = QtWidgets.QLabel()
 
 		layout = QVBoxLayout()
+		layout.addWidget(self.success_msg)
 		layout.addWidget(self.login_label)
 		layout.addWidget(self.login_input)
 		layout.addWidget(self.password_label)
@@ -35,9 +35,12 @@ class Login(QtWidgets.QDialog):
 		hashed_pswd = make_hashes(self.password_input.text())
 		result = self.bd.login_user(self.login_input.text(), check_hashes(self.password_input.text(),hashed_pswd))
 		if result:
-			print('vc esta logado')
+			self.success_msg.setText('Logado com sucesso!')
+			self.success_msg.setStyleSheet("color:green")
 		else:
-			print('nao encontramos esta credencial')
+			self.success_msg.setText('nao encontramos esta credencial')
+			self.success_msg.setStyleSheet("color:red")
+		print(self.bd.view_all_users())
 
 
 
