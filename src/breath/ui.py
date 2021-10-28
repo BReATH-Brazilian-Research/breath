@@ -19,6 +19,7 @@ class HomeWindow(QWidget):
 		self.label.setFixedSize(500,100)
 		self.label.setFont(QFont('Times New Roman', 15))
 
+		self.lgn_btn = QPushButton("Login")
 		self.reg_btn = QPushButton("Register")
 		self.reg_btn.setFixedSize(300,20)
 		self.reg_btn.move(30,100)
@@ -26,11 +27,11 @@ class HomeWindow(QWidget):
 		# Create layout and add widgets
 		layout = QVBoxLayout()
 		layout.addWidget(self.label)
+		layout.addWidget(self.lgn_btn)
 		layout.addWidget(self.reg_btn)
 		
 		# Set dialog layout
 		self.setLayout(layout)
-
 
 class UIToolTab(QWidget):
 	def __init__(self, parent=None):
