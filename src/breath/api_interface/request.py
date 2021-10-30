@@ -10,11 +10,11 @@ class Request:
     '''Stores some request info.
     '''
 
-    def __init__(self, requested_service:str, request_info:dict, response_queue:Queue):
+    def __init__(self, service_name:str, request_info:dict, response_queue:Queue):
         '''Request constructor
 
-            :param requested_service: Name of requested service
-            :type requested_service: str
+            :param service_name: Name of requested service
+            :type service_name: str
 
             :param request_info: Request explanation
             :type request_info: dict
@@ -23,7 +23,7 @@ class Request:
             :type response_queue: breath.api_interface.Queue
         '''
         
-        self.requested_service = requested_service
+        self.service_name = service_name
         self.request_info = request_info
         self.response_queue = response_queue
 

@@ -19,6 +19,15 @@ class Queue(ABC):
         '''
         ...
     
+    def pop(self):
+        '''!
+            Returns the first element of the queue.
+            Returns:
+                @returns the first element of the queue
+        '''
+        
+        return self.get()
+    
     @abstractmethod
     def insert(self, value):
         '''!

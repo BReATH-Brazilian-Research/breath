@@ -1,0 +1,25 @@
+from breath.api_interface.queue import Queue
+from breath.api_interface.request import Request
+from breath.session_manager.request_manager.request_handler import RequestHandler
+
+
+class ExecutionHandler(RequestHandler):
+
+    def __init__(self):
+        super().__init__()
+
+        self._service_registry : dict[str, Queue] = {}
+
+    def register_service(self, service_name:str, service_queue:Queue) -> None:
+        self.service_registry[service_name] = service_queue
+
+    def handle(self, request:Request) -> None:
+        '''Execute the request.
+        '''
+        self._send(request)
+        self._send_for_next(request)
+    
+    def _send(self, request: Request) -> None:
+        '''Send the request to the service.
+        '''
+        self.service_queue[request.service_name].insert(request)
