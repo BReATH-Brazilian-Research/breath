@@ -10,13 +10,16 @@ class Request:
     '''Stores some request info.
     '''
 
-    def __init__(self, service_name:str, request_info:dict, response_queue:Queue):
+    def __init__(self, service_name:str, operation_name:str, request_info:dict, response_queue:Queue):
         '''Request constructor
 
             :param service_name: Name of requested service
             :type service_name: str
 
-            :param request_info: Request explanation
+            :param operation_name: Name of requested operation
+            :type operation_name: str
+
+            :param request_info: Request parameters
             :type request_info: dict
 
             :param response_queue: Queue to send response
@@ -24,6 +27,7 @@ class Request:
         '''
         
         self.service_name = service_name
+        self.operation_name = operation_name
         self.request_info = request_info
         self.response_queue = response_queue
 

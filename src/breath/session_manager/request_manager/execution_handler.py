@@ -11,15 +11,30 @@ class ExecutionHandler(RequestHandler):
         self._service_registry : dict[str, Queue] = {}
 
     def register_service(self, service_name:str, service_queue:Queue) -> None:
+        '''Register some service
+
+            :param service_name: Name of service being registered.
+            :type service_name: str
+
+            :param service_queue: Queue to submit requests for the service 
+            :type service_queue: breath.api_interface.Queue
+        '''
+
         self.service_registry[service_name] = service_queue
 
     def handle(self, request:Request) -> None:
         '''Execute the request.
+
+            :param request: Request to execute.
+            :type request: breath.api_interface.Request
         '''
         self._send(request)
         self._send_for_next(request)
     
     def _send(self, request: Request) -> None:
         '''Send the request to the service.
+
+            :param request: Request to execute.
+            :type request: breath.api_interface.Request
         '''
         self.service_queue[request.service_name].insert(request)
