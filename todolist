@@ -1,4 +1,0 @@
-Criar a classe principal para o session_manager, que inicia a pipeline
-Criar serviço para armazenar info de login, e realizar o login utilizando google
-Conseguir ler permission info a partir de um dicionário
-Documentar classes

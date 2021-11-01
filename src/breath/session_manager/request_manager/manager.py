@@ -47,3 +47,6 @@ class RequestManager:
     
     def process_request(self):
         self._incoming_handler.process_request()
+
+    def change_user_level(self, user_level):
+        self._permission_handler.user_level = user_level
