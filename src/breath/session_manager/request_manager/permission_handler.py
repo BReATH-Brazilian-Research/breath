@@ -32,7 +32,7 @@ class PermissionInfo:
         self.value = value 
 
 
-class PermissionnHandler(RequestHandler):
+class PermissionHandler(RequestHandler):
     '''
         Checks the permission requirement of the service being requested.
 
@@ -48,7 +48,7 @@ class PermissionnHandler(RequestHandler):
     def __init__(self, user_level = UserLevel.NO_LOGIN):
         '''PermissionHandler constructor.
 
-            :ivar user_level: Actual user level of the user
+            :param user_level: Actual user level of the user
             :type user_level: breath.session_manager.login_manager.UserLevel
         '''
         super().__init__()
@@ -64,13 +64,13 @@ class PermissionnHandler(RequestHandler):
     def user_level(self, value:UserLevel):
         self._user_level = value
 
-    def register_permission_info(self, service_name:str, permission_info:dict):
+    def register_service(self, service_name:str, permission_info:dict):
         '''Register the permission info for a service.
 
-            :ivar service_name: Name of the service beeing registered.
+            :param service_name: Name of the service beeing registered.
             :type service_name: str
 
-            :ivar permission_info: Permission info set of the service. Must be a dictionary with the key being the operation, 
+            :param permission_info: Permission info set of the service. Must be a dictionary with the key being the operation, 
             and the value a list of PermissionInfo.
             :type permission_info: dict[str, dict[str, list[PermissionInfo]]]
         '''

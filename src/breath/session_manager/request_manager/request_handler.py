@@ -12,7 +12,6 @@ if int(sys.version.split()[0][2:-2])<10:
 class RequestHandler(ABC): 
     def __init__(self):
         self._next = None 
-        self._incoming_queue = SimpleQueue()
     
     @property
     def next(self) -> RequestHandler:
