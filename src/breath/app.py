@@ -1,5 +1,6 @@
 import sys,sqlite3
-from ui import HomeWindow, UIToolTab
+from ui import UIToolTab
+from home import HomeWindow
 from login import Login, Register
 from PyQt6.QtWidgets import (QLineEdit, QPushButton, QApplication, QMainWindow, QVBoxLayout, QDialog, QWidget)
 from PyQt6.QtGui import QIcon
@@ -22,7 +23,8 @@ class MainWindow(QMainWindow):
 		self.show()
 
 	def startHomeWindow(self):
-		self.Window = HomeWindow(self)
+		self.Window = HomeWindow()
+		self.setWindowTitle("Home")
 		self.setCentralWidget(self.Window)
 		self.Window.lgn_btn.clicked.connect(self.startLogin)
 		self.Window.reg_btn.clicked.connect(self.startRegister)
