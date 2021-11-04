@@ -1,78 +1,73 @@
-import streamlit as st
-import time, datetime
-import numpy as np
-import hashlib as hl
+import sys, hashlib
+from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6.QtWidgets import (QLineEdit, QPushButton, QVBoxLayout, QDialog)
+import pandas as pd
+from user.db import *
 
-# from user import oauth
-# from user import registrar
+class Login(QtWidgets.QDialog):
+	def __init__(self, parent=None):
+		super(Login, self).__init__(parent)
+		self.login_input = QtWidgets.QLineEdit()
+		self.password_input = QtWidgets.QLineEdit()
+		self.login_label = QtWidgets.QLabel('Login')
+		self.password_label = QtWidgets.QLabel('Password')
+		self.return_btn = QtWidgets.QPushButton('Return')
+		self.lgn_btn = QtWidgets.QPushButton('Login')
+		self.reg_btn = QtWidgets.QPushButton('Register')
+		self.success_msg = QtWidgets.QLabel()
 
-class LogIn:
-    def __init__(self) -> None:
-        if 'email' not in st.session_state:
-            st.session_state.email = 0
+		layout = QVBoxLayout()
+		layout.addWidget(self.success_msg)
+		layout.addWidget(self.login_label)
+		layout.addWidget(self.login_input)
+		layout.addWidget(self.password_label)
+		layout.addWidget(self.password_input)
+		layout.addWidget(self.lgn_btn)
+		layout.addWidget(self.reg_btn)
+		layout.addWidget(self.return_btn)
 
-        if 'senha' not in st.session_state:
-            st.session_state.senha = 0
+		# Set dialog layout
+		self.setLayout(layout)
 
-        if 'google_login' not in st.session_state:
-            st.session_state.google_login = 0
+		self.lgn_btn.clicked.connect(self.login)
 
-
-        # Título da página
-        st.title("We aim to help people with asthma improve their day using weather data.")
-        st.title("Entre no nosso site!")
-        st.text("Faça seu login ou realize seu cadastro.")
-        
-        # Caixas de Input
-        st.text_input("Email", key="email_typed")
-        st.text_input("Senha", type="password", key="senha_typed")
-        print(st.session_state.email, st.session_state.senha)
-
-        # Botões
-        left_column, center_column, right_column = st.columns(3)
-        left_column.button("Entrar com Google", key="button_google_login")
-        center_column.button("Entrar", key="button_login")
-        right_column.button("Cadastrar", key="button_cadastro")
-
-        # Interação com botão de Login
-        if st.session_state.button_login == True:
-            st.session_state.email = st.session_state.email_typed
-            st.session_state.senha = self.crypto(st.session_state.senha_typed)
-            
-            if self.__VerificaHash(self.__VerificaEmail) == True:
-                # Entra no app -> Proxima pagina
-                pass
-            else:
-                print("Email ou Senha incorretos")
-
-            st.session_state.google_login = False
-
-        #Interação com o botão de Cadastro
-        if st.session_state.button_cadastro == True:
-            # registrar.Registrar()
-            st.session_state.google_login = False
-
-        # Interação com o botão de Login com o Google
-        if st.session_state.button_google_login == True:
-          
-            # oauth.google_oauth_login()
-            pass
+	def login(self):
+		hashed_pswd = make_hashes(self.password_input.text())
+		result = self.bd.login_user(self.login_input.text(), check_hashes(self.password_input.text(),hashed_pswd))
+		if result:
+			self.success_msg.setText('Logado com sucesso!')
+			self.success_msg.setStyleSheet("color:green")
+		else:
+			self.success_msg.setText('nao encontramos esta credencial')
+			self.success_msg.setStyleSheet("color:red")
+		print(self.bd.view_all_users())
 
 
-    def crypto(self, password):
-        return hl.sha512(str.encode(password)).hexdigest()
 
+class Register(QDialog):
+	def __init__(self, parent=None):
+		super(Register, self).__init__(parent)
 
-    def __VerificaEmail(self):
-        
-        return False
+		# Create widgets
+		self.account = QLineEdit("Account")
+		self.password_input = QLineEdit("Password")
+		self.confirm = QLineEdit("Repeat Password")
+		self.reg_btn = QPushButton("Register")
+		self.return_btn = QPushButton("Return")
+		# Create layout and add widgets
+		layout = QVBoxLayout()
+		layout.addWidget(self.account)
+		layout.addWidget(self.password_input)
+		layout.addWidget(self.confirm)
+		layout.addWidget(self.reg_btn)
+		layout.addWidget(self.return_btn)
+		# Set dialog layout
+		self.setLayout(layout)
+		# Add button signal to register slot
+		self.reg_btn.clicked.connect(self.register)
 
-    def __VerificaHash(self, email_flag):
-        if email_flag == True:
-            pass
-
-        return False
-        
-
-if __name__ == "__main__":
-    LogIn()
+	# Greets the user
+	def register(self):
+		self.bd.add_userdata(self.account.text(),make_hashes(self.password_input.text()))
+		print(self.bd.view_all_users())
+		print("Você está logado")
