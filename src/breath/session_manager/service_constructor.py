@@ -1,7 +1,7 @@
 from multiprocessing import Process
 from typing import Union
 
-from breath.api_interface import ProcessQueue, ServiceProxy
+from breath_api_interface import ProcessQueue, ServiceProxy
 from breath.service_interface import Service
 
 

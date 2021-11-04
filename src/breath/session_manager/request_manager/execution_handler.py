@@ -1,5 +1,5 @@
-from breath.api_interface.queue import Queue
-from breath.api_interface.request import Request
+from breath_api_interface.queue import Queue
+from breath_api_interface.request import Request
 from breath.session_manager.request_manager.request_handler import RequestHandler
 
 
@@ -17,7 +17,7 @@ class ExecutionHandler(RequestHandler):
             :type service_name: str
 
             :param service_queue: Queue to submit requests for the service 
-            :type service_queue: breath.api_interface.Queue
+            :type service_queue: breath_api_interface.Queue
         '''
 
         self._service_registry[service_name] = service_queue
@@ -26,7 +26,7 @@ class ExecutionHandler(RequestHandler):
         '''Execute the request.
 
             :param request: Request to execute.
-            :type request: breath.api_interface.Request
+            :type request: breath_api_interface.Request
         '''
         self._send(request)
         self._send_for_next(request)
@@ -35,6 +35,6 @@ class ExecutionHandler(RequestHandler):
         '''Send the request to the service.
 
             :param request: Request to execute.
-            :type request: breath.api_interface.Request
+            :type request: breath_api_interface.Request
         '''
         self.service_queue[request.service_name].insert(request)

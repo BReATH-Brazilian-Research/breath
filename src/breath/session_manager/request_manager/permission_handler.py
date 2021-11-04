@@ -1,7 +1,7 @@
 from enum import Enum
 import operator
 
-from breath.api_interface.request import Request, Response
+from breath_api_interface.request import Request, Response
 from breath.session_manager.login_manager import UserLevel
 from breath.session_manager.request_manager.request_handler import RequestHandler
 
@@ -80,7 +80,7 @@ class PermissionHandler(RequestHandler):
         '''Validates the request, looking for permission problems
 
             :param request: Request to validate and pass foward
-            :type request: breath.api_interface.request
+            :type request: breath_api_interface.request
         '''
 
         if self._verify_permission(request):
@@ -93,7 +93,7 @@ class PermissionHandler(RequestHandler):
         '''Checks all permission requirements.
 
             :param request: Request to validate
-            :type request: breath.api_interface.request
+            :type request: breath_api_interface.request
 
             :return: True if pass all the requirements. False if otherwise.
             :rtype: bool

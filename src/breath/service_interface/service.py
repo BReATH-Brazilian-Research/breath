@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Union
 
-from breath.api_interface import ServiceProxy, Queue, Request
+from breath_api_interface import ServiceProxy, Queue, Request
 
 
 class Service(ABC):
@@ -12,7 +12,7 @@ class Service(ABC):
         '''Service constructor.
 
             :param proxy: Proxy for sending requests
-            :type proxy: breath.api_interface.ServiceProxy
+            :type proxy: breath_api_interface.ServiceProxy
 
             :param request_queue: Queue for getting requests
             :type request_queue: Queue

@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from breath.api_interface import SimpleQueue, Request
+from breath_api_interface import SimpleQueue, Request
 
 
 #Import annotations for class type hint inside itself in versions <3.10.x

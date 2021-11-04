@@ -1,5 +1,5 @@
-from breath.api_interface.queue import ProcessQueue, Queue
-from breath.api_interface.request import Request
+from breath_api_interface.queue import ProcessQueue, Queue
+from breath_api_interface.request import Request
 from breath.session_manager.request_manager.request_handler import RequestHandler
 
 
