@@ -1,7 +1,7 @@
 import streamlit as st
 import hashlib as hl
 
-from breath.user.oauth import google_oauth_login
+from user.oauth import google_oauth_login
 
 class Registrar:
 	def __init__(self):

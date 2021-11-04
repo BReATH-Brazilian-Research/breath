@@ -7,3 +7,5 @@ __pycache__
 *.egg-info
 
 data.db
+src/.scannerwork/.sonar_lock
+src/.scannerwork/report-task.txt
