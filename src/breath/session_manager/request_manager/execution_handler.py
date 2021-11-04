@@ -20,7 +20,7 @@ class ExecutionHandler(RequestHandler):
             :type service_queue: breath.api_interface.Queue
         '''
 
-        self.service_registry[service_name] = service_queue
+        self._service_registry[service_name] = service_queue
 
     def handle(self, request:Request) -> None:
         '''Execute the request.
