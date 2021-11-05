@@ -19,14 +19,16 @@ def google_oauth_login():
             None
     '''
 
+    TOKEN = "token.json"
+
     logging.getLogger('googleapiclient.discovery_cache').setLevel(logging.ERROR)
 
     scopes = ["https://www.googleapis.com/auth/userinfo.email", "openid"]
 
     creds = None
 
-    if os.path.exists('token.json'):
-        creds = Credentials.from_authorized_user_file('token.json', scopes)
+    if os.path.exists(TOKEN):
+        creds = Credentials.from_authorized_user_file(TOKEN, scopes)
 
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
@@ -35,7 +37,7 @@ def google_oauth_login():
             flow = InstalledAppFlow.from_client_secrets_file('client_secret_pc.json', scopes)
             creds = flow.run_local_server(port=0)
 
-        with open('token.json', 'w') as token:
+        with open(TOKEN, 'w') as token:
             token.write(creds.to_json())
 
     service = build("oauth2", "v2", credentials=creds)
