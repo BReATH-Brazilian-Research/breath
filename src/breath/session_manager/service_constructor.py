@@ -2,7 +2,7 @@ from multiprocessing import Process
 from typing import Union
 
 from breath_api_interface import ProcessQueue, ServiceProxy
-from breath.service_interface import Service
+from breath_api_interface.service_interface import Service
 
 
 class ProcessServiceConstructor:

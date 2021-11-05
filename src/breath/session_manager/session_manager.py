@@ -5,7 +5,7 @@ from breath.session_manager.request_manager.manager import RequestManager
 from breath.session_manager.service_constructor import ProcessServiceConstructor
 
 
-from breath.service_interface import Service
+from breath_api_interface.service_interface import Service
 
 class ProcessSessionManager:
     def __init__(self):
