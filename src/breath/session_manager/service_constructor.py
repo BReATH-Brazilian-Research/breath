@@ -4,10 +4,13 @@ from typing import Union
 from breath_api_interface import ProcessQueue, ServiceProxy
 from breath_api_interface.service_interface import Service
 
+from breath_data import BDAcessPoint, DataWorflow
+
+SERVICES = {"BDAcessPoint": BDAcessPoint, "DataWorflow" : DataWorflow}
 
 class ProcessServiceConstructor:
     def __init__(self):
-        self._available_services : dict[str, type] = {}
+        self._available_services : dict[str, type] = SERVICES
 
     def register_available_service(self, service_name:str, service_class:type):
         self._available_services[service_name] = service_class
