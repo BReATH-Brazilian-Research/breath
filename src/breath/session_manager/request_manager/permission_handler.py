@@ -102,6 +102,9 @@ class PermissionHandler(RequestHandler):
         service = request.service_name
         operation = request.operation_name
         
+        if service not in self._permission_info or operation not in self._permission_info[service]:
+            return True
+
         permission_info : PermissionInfo
         for permission_info in self._permission_info[service][operation]:
             if permission_info.field == "user_level":

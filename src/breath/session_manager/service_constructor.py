@@ -5,12 +5,16 @@ from breath_api_interface import ProcessQueue, ServiceProxy
 from breath_api_interface.service_interface import Service
 
 from breath_data import BDAcessPoint, DataWorflow
+from breath.console_application import ConsoleApplication
 
-SERVICES = {"BDAcessPoint": BDAcessPoint, "DataWorflow" : DataWorflow}
+import multiprocessing
+
+SERVICES = {"BDAcessPoint": BDAcessPoint, "DataWorflow" : DataWorflow, "ConsoleApplication": ConsoleApplication}
 
 class ProcessServiceConstructor:
     def __init__(self):
         self._available_services : dict[str, type] = SERVICES
+        self._manager = None 
 
     def register_available_service(self, service_name:str, service_class:type):
         self._available_services[service_name] = service_class
@@ -22,10 +26,13 @@ class ProcessServiceConstructor:
         response_queue = ProcessQueue()
         request_queue = ProcessQueue()
 
+        self._manager = ProcessQueue._manager
+        
         proxy = ServiceProxy(manager_queue, response_queue)
         service : Service = self._available_services[service_name](proxy, request_queue)
 
-        Process(target = service.run_forever)
+        p = Process(target = service.run_forever)
+        p.start()
 
         return request_queue
 

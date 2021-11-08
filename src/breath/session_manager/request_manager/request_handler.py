@@ -1,3 +1,4 @@
+from __future__ import annotations
 from abc import ABC, abstractmethod
 
 from breath_api_interface import SimpleQueue, Request
@@ -5,9 +6,6 @@ from breath_api_interface import SimpleQueue, Request
 
 #Import annotations for class type hint inside itself in versions <3.10.x
 import sys
-if int(sys.version.split()[0][2:-2])<10: 
-    from __future__ import annotations
-
 
 class RequestHandler(ABC): 
     def __init__(self):
@@ -22,7 +20,7 @@ class RequestHandler(ABC):
         self._next = value
 
     def _send_for_next(self, request:Request) -> None:
-        if next is not None:
+        if self._next is not None:
             self._next.handle(request)
 
     @abstractmethod

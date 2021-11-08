@@ -37,4 +37,4 @@ class ExecutionHandler(RequestHandler):
             :param request: Request to execute.
             :type request: breath_api_interface.Request
         '''
-        self.service_queue[request.service_name].insert(request)
+        self._service_registry[request.service_name].insert(request)

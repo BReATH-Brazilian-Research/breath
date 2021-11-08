@@ -4,7 +4,6 @@ from breath.session_manager.request_manager.execution_handler import ExecutionHa
 from breath.session_manager.request_manager.incoming_handler import IncomingHandler
 from breath.session_manager.request_manager.permission_handler import PermissionHandler
 from breath.session_manager.request_manager.validation_handler import ValidationHandler
-from breath.session_manager.session_manager import ProcessSessionManager
 
 
 class RequestManager:
@@ -16,13 +15,13 @@ class RequestManager:
         :type _incoming_queue: breath_api_interface.Queue
     '''
 
-    def __init__(self, incoming_queue:Queue, session_manager:ProcessSessionManager):
+    def __init__(self, incoming_queue:Queue, session_manager):
         '''RequestManager constructor.
 
             Initializes the processing pipeline.    
         '''
         self._incoming_queue : Queue = incoming_queue
-        self._session_manager : ProcessSessionManager = session_manager
+        self._session_manager  = session_manager
         self._start_pipeline()
 
     def _start_pipeline(self) -> None:
