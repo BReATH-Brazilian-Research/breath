@@ -7,10 +7,10 @@ from breath_api_interface.request import Request, Response
 import sys
 
 class ConsoleApplication(Service):
-    def __init__(self, proxy:ServiceProxy, request_queue:Queue):
+    def __init__(self, proxy:ServiceProxy, request_queue:Queue, global_response_queue:Queue):
         '''ConsoleApplication constructor.
         '''
-        super().__init__(proxy=proxy, request_queue=request_queue)
+        super().__init__(proxy, request_queue, global_response_queue, "ConsoleApplication")
         self._configured = False
 
 
@@ -22,8 +22,7 @@ class ConsoleApplication(Service):
         opcao = 1
 
         if opcao == 1:
-            request = Request(service_name="DataWorflow", operation_name="load_open_sus_data")
-            response = self._proxy.send_request(request)
+            response = self._send_request(service_name="DataWorkflow", operation_name="load_open_sus_data")
 
         if response.sucess:
             print("Operação realizada com sucesso!")
