@@ -9,3 +9,4 @@ __pycache__
 data.db
 src/.scannerwork/.sonar_lock
 src/.scannerwork/report-task.txt
+*.db
