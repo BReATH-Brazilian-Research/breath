@@ -1,0 +1,9 @@
+[submodule "submodules/breath_api_interface"]
+	path = submodules/breath_api_interface
+	url = https://github.com/BReATH-Brazilian-Research/breath_api_interface
+[submodule "submodules/breath_data"]
+	path = submodules/breath_data
+	url = https://github.com/BReATH-Brazilian-Research/breath_data
+[submodule "submodules/breath_ml"]
+	path = submodules/breath_ml
+	url = https://github.com/BReATH-Brazilian-Research/breath_ml
