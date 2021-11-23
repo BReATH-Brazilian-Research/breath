@@ -1,10 +1,10 @@
 from breath_api_interface import ProcessQueue, Queue, service_interface
-from breath.session_manager.request_manager.availability_handler import AvailabilityHandler
-from breath.session_manager.request_manager.execution_handler import ExecutionHandler
-from breath.session_manager.request_manager.incoming_handler import IncomingHandler
-from breath.session_manager.request_manager.permission_handler import PermissionHandler
-from breath.session_manager.request_manager.response_handler import ResponseHandler
-from breath.session_manager.request_manager.validation_handler import ValidationHandler
+from .availability_handler import AvailabilityHandler
+from .execution_handler import ExecutionHandler
+from .incoming_handler import IncomingHandler
+from .permission_handler import PermissionHandler
+from .response_handler import ResponseHandler
+from .validation_handler import ValidationHandler
 
 
 class RequestManager:

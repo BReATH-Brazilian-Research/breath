@@ -2,8 +2,9 @@ from multiprocessing import Value
 from breath_api_interface.proxy import ServiceProxy
 from breath_api_interface.queue import ProcessQueue
 from breath_api_interface.request import Request
-from breath.session_manager.request_manager.manager import RequestManager
-from breath.session_manager.service_constructor import ProcessServiceConstructor
+from .request_manager.manager import RequestManager
+from .service_constructor import ProcessServiceConstructor
+import time
 
 
 from breath_api_interface.service_interface import Service
@@ -33,12 +34,14 @@ class ProcessSessionManager:
     def send_request(self, service_name, operation_name, request_info=None, wait_for_response=True):
         request = Request(service_name, operation_name, "SESSION_MANAGER", request_info, wait_for_response)
         
-        self._request_manager.queue.insert(request)
+        self._queue.insert(request)
 
+        if not wait_for_response:
+            return True
+        
         while self._sm_response_queue.empty():
             time.sleep(1E-3)
 
-        if not wait_for_response:
-            return None
+        
 
         return self._sm_response_queue.get()
