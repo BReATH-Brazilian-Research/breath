@@ -9,7 +9,7 @@ from breath_main.console_application import ConsoleApplication
 
 import multiprocessing
 
-SERVICES = {"BDAcessPoint": BDAcessPoint, "DataWorkflow" : DataWorflow, "ConsoleApplication": ConsoleApplication}
+SERVICES = {"BDAcessPoint": BDAcessPoint, "DataWorkflow" : DataWorkflow, "ConsoleApplication": ConsoleApplication}
 
 def create_and_run_service(service_class, proxy, request_queue, global_response_queue):
     service : Service = service_class(proxy, request_queue, global_response_queue)
@@ -24,7 +24,7 @@ class ProcessServiceConstructor:
 
     def create_service(self, service_name: str, manager_queue: ProcessQueue, global_response_queue:ProcessQueue): #-> Union[Tuple(ProcessQueue, ProcessQueue), None]:
         if service_name not in self._available_services:
-            return None
+            return None, None
 
         request_queue = ProcessQueue()
         response_queue = ProcessQueue()
