@@ -1,9 +1,7 @@
 import unittest
 import sys
 
-sys.path.append("..\src")
-
-from breath.session_manager import ProcessSessionManager
+from breath_main.session_manager import ProcessSessionManager
 
 class BDTest(unittest.TestCase):
 

@@ -1,9 +1,7 @@
 import unittest
 import sys
 
-sys.path.append("..\src")
-
-from src.breath.breath_patient_portal import RegisterSymptoms
+from breath_main.breath_patient_portal import RegisterSymptoms
 
 class SymptomsRegisterTest(unittest.TestCase):
 
