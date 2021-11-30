@@ -2,8 +2,8 @@ from enum import Enum
 import operator
 
 from breath_api_interface.request import Request, Response
-from breath.session_manager.login_manager import UserLevel
-from breath.session_manager.request_manager.request_handler import RequestHandler
+from breath_main.session_manager.login_manager import UserLevel
+from breath_main.session_manager.request_manager.request_handler import RequestHandler
 
 
 class PermissionRuleType(Enum):

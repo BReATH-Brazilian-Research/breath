@@ -1,8 +1,8 @@
 from breath_api_interface.proxy import ServiceProxy
 from breath_api_interface.queue import ProcessQueue
 from breath_api_interface.request import Request
-from breath.session_manager.request_manager.manager import RequestManager
-from breath.session_manager.service_constructor import ProcessServiceConstructor
+from breath_main.session_manager.request_manager.manager import RequestManager
+from breath_main.session_manager.service_constructor import ProcessServiceConstructor
 
 
 from breath_api_interface.service_interface import Service

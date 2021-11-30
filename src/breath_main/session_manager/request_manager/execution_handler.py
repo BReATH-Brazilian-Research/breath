@@ -1,6 +1,6 @@
 from breath_api_interface.queue import Queue
 from breath_api_interface.request import Request
-from breath.session_manager.request_manager.request_handler import RequestHandler
+from breath_main.session_manager.request_manager.request_handler import RequestHandler
 
 
 class ExecutionHandler(RequestHandler):

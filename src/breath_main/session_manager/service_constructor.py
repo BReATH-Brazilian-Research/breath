@@ -5,7 +5,7 @@ from breath_api_interface import ProcessQueue, ServiceProxy
 from breath_api_interface.service_interface import Service
 
 from breath_data import BDAcessPoint, DataWorflow
-from breath.console_application import ConsoleApplication
+from breath_main.console_application import ConsoleApplication
 
 import multiprocessing
 

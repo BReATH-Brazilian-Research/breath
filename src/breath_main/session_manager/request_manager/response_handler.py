@@ -1,6 +1,6 @@
 from typing import Dict, List
 from breath_api_interface import Request, Response, Queue
-from breath.session_manager.request_manager.request_handler import RequestHandler
+from breath_main.session_manager.request_manager.request_handler import RequestHandler
 
 
 class ResponseHandler(RequestHandler):
