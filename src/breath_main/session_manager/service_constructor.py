@@ -1,5 +1,5 @@
 from multiprocessing import Process
-from typing import Tuple, Union
+from typing import List, Tuple, Union
 
 from breath_api_interface import ProcessQueue, ServiceProxy
 from breath_api_interface.service_interface import Service
@@ -18,6 +18,7 @@ def create_and_run_service(service_class, proxy, request_queue, global_response_
 class ProcessServiceConstructor:
     def __init__(self):
         self._available_services : dict[str, type] = SERVICES
+        self._process : List[Process] = []
 
     def register_available_service(self, service_name:str, service_class:type):
         self._available_services[service_name] = service_class
@@ -39,5 +40,11 @@ class ProcessServiceConstructor:
         p = Process(target = create_and_run_service, args=(service_class, proxy, request_queue, global_response_queue))
         p.start()
 
+        self._process.append(p)
+
         return request_queue, response_queue
 
+    def __del__(self):
+        print("Terminando serviços")
+        for p in self._process:
+            p.terminate()

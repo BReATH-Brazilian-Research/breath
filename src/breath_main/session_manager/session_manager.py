@@ -49,3 +49,6 @@ class ProcessSessionManager:
         
 
         return self._sm_response_queue.get()
+
+    def __del__(self):
+        del self._service_constructor
