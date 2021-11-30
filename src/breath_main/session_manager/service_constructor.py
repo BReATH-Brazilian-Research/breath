@@ -4,7 +4,7 @@ from typing import Tuple, Union
 from breath_api_interface import ProcessQueue, ServiceProxy
 from breath_api_interface.service_interface import Service
 
-from breath_data import BDAcessPoint, DataWorflow
+from breath_data import BDAcessPoint, DataWorkflow
 from breath_main.console_application import ConsoleApplication
 
 import multiprocessing

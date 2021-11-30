@@ -1,12 +1,16 @@
 from multiprocessing import Value
+import time
+
+
+from breath_api_interface.service_interface import Service
 from breath_api_interface.proxy import ServiceProxy
 from breath_api_interface.queue import ProcessQueue
 from breath_api_interface.request import Request
+
 from breath_main.session_manager.request_manager.manager import RequestManager
 from breath_main.session_manager.service_constructor import ProcessServiceConstructor
 
 
-from breath_api_interface.service_interface import Service
 
 class ProcessSessionManager:
     def __init__(self):
@@ -39,6 +43,7 @@ class ProcessSessionManager:
             return True
         
         while self._sm_response_queue.empty():
+            self.run()
             time.sleep(1E-3)
 
         
