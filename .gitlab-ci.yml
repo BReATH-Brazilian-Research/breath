@@ -47,6 +47,8 @@ build_main:
     - python3 -m pip install breath_api_interface
     - python3 -m pip install breath_data/module
     - python3 -m pip install --upgrade build
+    - python3 -m build breath_api_interface
+    - python3 -m build breath_data/module
     - python3 -m build
     - python3 -m pip install .
    
