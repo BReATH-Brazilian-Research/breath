@@ -66,8 +66,7 @@ test:
 pypi_release_breath_data:
     stage: deploy
     script:
-        - cd ../breath_data
-        - cd module
+        - cd breath_data/module
         - python3 -m pip install --upgrade twine
         - python3 -m t BReATH / wine upload breath_data/module/dist/* -u __token__ -p pypi-AgEIcHlwaS5vcmcCJGVmNGRhMGUxLTNmYjgtNGQ1OC04YjIwLTY1YzQzOTUxNzFmNwACPHsicGVybWlzc2lvbnMiOiB7InByb2plY3RzIjogWyJicmVhdGgtZGF0YSJdfSwgInZlcnNpb24iOiAxfQAABiCmPAFXhD3EumQcfVe4juY0tmRcmF_VOwgqvrNlrXDe8g
 
@@ -77,8 +76,7 @@ pypi_release_breath_data:
 pypi_release_api:
     stage: deploy
     script:
-        - cd module
-        - cd ../breath_api_interface
+        - cd breath_api_interface
         - python3 -m pip install --upgrade twine
         - python3 -m twine upload breath_api_interface/dist/* -u __token__ -p pypi-AgEIcHlwaS5vcmcCJDM5NzFmNmU2LTQwNDQtNGU1Zi1iZmEwLTM0MDUyOGU1NWUxOQACRXsicGVybWlzc2lvbnMiOiB7InByb2plY3RzIjogWyJicmVhdGgtYXBpLWludGVyZmFjZSJdfSwgInZlcnNpb24iOiAxfQAABiAq_QNOWfPp58IA141c-1FPIpmuigPhpzaZ4ng062JxAQ
 
