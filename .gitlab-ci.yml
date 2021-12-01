@@ -1,4 +1,4 @@
-image: python:latest # pega imagem de docker do python
+image: python:latest
 
 stages:
   - bridge
@@ -17,18 +17,18 @@ connect_data:
 connect_api:
   stage: bridge
   trigger:
-    project: BReATH/breath_api_interface
+    project: BReATH/breath_api_interface2
     branch: main
     strategy: depend
 
 build_main:
   stage: build
-  script: # oq vai ser feito
-cd module 
+  script:
+    - cd module 
     - python3 -m pip install --upgrade build
     - python3 -m build
    
-  artifacts: # documentos e arquivos que serao gerados
+  artifacts:
     paths:
       - public
   
@@ -50,7 +50,7 @@ pypi_release_api:
     stage: deploy
     script:
         - cd module
-        -cd ../breath_api_interface
+        - cd ../breath_api_interface
         - python3 -m pip install --upgrade twine
         - python3 -m twine upload dist/* -u __token__ -p pypi-AgEIcHlwaS5vcmcCJDM5NzFmNmU2LTQwNDQtNGU1Zi1iZmEwLTM0MDUyOGU1NWUxOQACRXsicGVybWlzc2lvbnMiOiB7InByb2plY3RzIjogWyJicmVhdGgtYXBpLWludGVyZmFjZSJdfSwgInZlcnNpb24iOiAxfQAABiAq_QNOWfPp58IA141c-1FPIpmuigPhpzaZ4ng062JxAQ
 
