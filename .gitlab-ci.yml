@@ -68,9 +68,8 @@ test:
 pypi_release_breath_data:
     stage: deploy
     script:
-        - cd breath_data/module
         - python3 -m pip install --upgrade twine
-        - python3 -m t BReATH / wine upload breath_data/module/dist/* -u __token__ -p $pypy_token_data
+        - python3 -m twine upload breath_data/module/dist/* -u __token__ -p $pypy_token_data
 
     dependencies:
       - build_main
@@ -78,7 +77,6 @@ pypi_release_breath_data:
 pypi_release_api:
     stage: deploy
     script:
-        - cd breath_api_interface
         - python3 -m pip install --upgrade twine
         - python3 -m twine upload breath_api_interface/dist/* -u __token__ -p $pypy_token_api
 
