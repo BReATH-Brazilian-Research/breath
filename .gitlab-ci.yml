@@ -42,6 +42,8 @@ connect_data:
 build_main:
   stage: build
   script:
+    - git clone https://gitlab.com/breath_unicamp/breath_data.git
+    - git clone https://gitlab.com/breath_unicamp/breath_api_interface.git
     - python3 -m pip install --upgrade build
     - python3 -m build
     - python3 -m pip install .
