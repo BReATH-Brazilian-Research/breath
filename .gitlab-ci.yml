@@ -34,7 +34,7 @@ build_main:
 test:
   stage: test
   script:
-    - python -m pytest test --junitxml=report.xml
+    - pytest test --junitxml=report.xml
 
 
 pypi_release_breath_data:
