@@ -10,14 +10,14 @@ stages:
 connect_data:
   stage: bridge
   trigger:
-    project: BReATH/breath_data
+    project: breath_unicamp/breath_data
     branch: main
     strategy: depend
 
 connect_api:
   stage: bridge
   trigger:
-    project: BReATH/breath_api_interface2
+    project: breath_unicamp/breath_api_interface2
     branch: main
     strategy: depend
 
