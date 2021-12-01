@@ -3,8 +3,6 @@ image: python:3.8
 stages:
   - cache
   - before_script
-  - bridge_api
-  - bridge
   - build
   - test
   - deploy
@@ -23,21 +21,6 @@ before_script:
   - pip install virtualenv
   - virtualenv venv
   - source venv/bin/activate
-
-
-connect_api:
-  stage: bridge_api
-  trigger:
-    project: breath_unicamp/breath_api_interface
-    branch: main
-    strategy: depend
-
-connect_data:
-  stage: bridge
-  trigger:
-    project: breath_unicamp/breath_data
-    branch: main
-    strategy: depend
 
 build_main:
   stage: build
