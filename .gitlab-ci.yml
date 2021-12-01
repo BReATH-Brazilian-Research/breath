@@ -1,12 +1,29 @@
 image: python:3.8
 
 stages:
+  - cache
+  - before_script
   - bridge_api
   - bridge
   - build
   - test
   - deploy
   - complete
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+cache:
+  paths:
+    - .cache/pip
+    - venv/
+
+before_script:
+  - python -V  # Print out python version for debugging
+  - pip install virtualenv
+  - virtualenv venv
+  - source venv/bin/activate
+
 
 connect_api:
   stage: bridge_api
