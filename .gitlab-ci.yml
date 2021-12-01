@@ -24,7 +24,6 @@ connect_api:
 build_main:
   stage: build
   script:
-    - cd module 
     - python3 -m pip install --upgrade build
     - python3 -m build
    
