@@ -1,4 +1,4 @@
-image: python:latest
+image: python:3.8
 
 stages:
   - bridge
@@ -24,8 +24,8 @@ connect_api:
 build_main:
   stage: build
   script:
-    - python -m pip install --upgrade build
-    - python -m build
+    - python3 -m pip install --upgrade build
+    - python3 -m build
    
   artifacts:
     paths:
@@ -34,6 +34,7 @@ build_main:
 test:
   stage: test
   script:
+    - pip3 install pytest
     - pytest test --junitxml=report.xml
 
 
@@ -42,19 +43,19 @@ pypi_release_breath_data:
     script:
         - cd ../breath_data
         - cd module
-        - python -m pip install --upgrade twine
-        - python -m t BReATH / wine upload dist/* -u __token__ -p pypi-AgEIcHlwaS5vcmcCJGVmNGRhMGUxLTNmYjgtNGQ1OC04YjIwLTY1YzQzOTUxNzFmNwACPHsicGVybWlzc2lvbnMiOiB7InByb2plY3RzIjogWyJicmVhdGgtZGF0YSJdfSwgInZlcnNpb24iOiAxfQAABiCmPAFXhD3EumQcfVe4juY0tmRcmF_VOwgqvrNlrXDe8g
+        - python3 -m pip install --upgrade twine
+        - python3 -m t BReATH / wine upload dist/* -u __token__ -p pypi-AgEIcHlwaS5vcmcCJGVmNGRhMGUxLTNmYjgtNGQ1OC04YjIwLTY1YzQzOTUxNzFmNwACPHsicGVybWlzc2lvbnMiOiB7InByb2plY3RzIjogWyJicmVhdGgtZGF0YSJdfSwgInZlcnNpb24iOiAxfQAABiCmPAFXhD3EumQcfVe4juY0tmRcmF_VOwgqvrNlrXDe8g
 
 pypi_release_api:
     stage: deploy
     script:
         - cd module
         - cd ../breath_api_interface
-        - python -m pip install --upgrade twine
-        - python -m twine upload dist/* -u __token__ -p pypi-AgEIcHlwaS5vcmcCJDM5NzFmNmU2LTQwNDQtNGU1Zi1iZmEwLTM0MDUyOGU1NWUxOQACRXsicGVybWlzc2lvbnMiOiB7InByb2plY3RzIjogWyJicmVhdGgtYXBpLWludGVyZmFjZSJdfSwgInZlcnNpb24iOiAxfQAABiAq_QNOWfPp58IA141c-1FPIpmuigPhpzaZ4ng062JxAQ
+        - python3 -m pip install --upgrade twine
+        - python3 -m twine upload dist/* -u __token__ -p pypi-AgEIcHlwaS5vcmcCJDM5NzFmNmU2LTQwNDQtNGU1Zi1iZmEwLTM0MDUyOGU1NWUxOQACRXsicGVybWlzc2lvbnMiOiB7InByb2plY3RzIjogWyJicmVhdGgtYXBpLWludGVyZmFjZSJdfSwgInZlcnNpb24iOiAxfQAABiAq_QNOWfPp58IA141c-1FPIpmuigPhpzaZ4ng062JxAQ
 
 pypi_release:
     stage: deploy
     script:
-        - python -m pip install --upgrade twine
-        - python -m twine upload dist/* -u __token__ -p pypi-AgEIcHlwaS5vcmcCJDYwZTFhMGU3LTU1NmItNGY1NS1hMjVmLTU3NzhiMWNkOWIyMAACPHsicGVybWlzc2lvbnMiOiB7InByb2plY3RzIjogWyJicmVhdGgtbWFpbiJdfSwgInZlcnNpb24iOiAxfQAABiD8Q3zG2nhdnsE9_7xY0-fRze5NKfANQkMaWztxzvBDJA
+        - python3 -m pip install --upgrade twine
+        - python3 -m twine upload dist/* -u __token__ -p pypi-AgEIcHlwaS5vcmcCJDYwZTFhMGU3LTU1NmItNGY1NS1hMjVmLTU3NzhiMWNkOWIyMAACPHsicGVybWlzc2lvbnMiOiB7InByb2plY3RzIjogWyJicmVhdGgtbWFpbiJdfSwgInZlcnNpb24iOiAxfQAABiD8Q3zG2nhdnsE9_7xY0-fRze5NKfANQkMaWztxzvBDJA
