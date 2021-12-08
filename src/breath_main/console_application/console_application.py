@@ -22,12 +22,12 @@ class ConsoleApplication(Service):
 
 		print("Escolha uma opção:")
 		print("1 - Construir base de dados")
-		print("2 - Dados climaticos de qualidade do ar de uma cidade")
-		print("3 - Historico de doencas respiratorias da cidade")
-		print("4 - Probablidade de doencas agora")
+		print("2 - Dados climáticos de qualidade do ar de uma cidade")
+		print("3 - Histórico de doenças respiratórias da cidade")
+		print("4 - Probablidade de doenças agora")
 		print("5 - Registrar meus sintomas")
-		print("6 - Ver historico de sintomas")
-		print("7 - Sair da aplicacao")
+		print("6 - Ver histórico de sintomas")
+		print("7 - Sair da aplicação")
 
 		
 		opcao = sys.stdin.readline()
