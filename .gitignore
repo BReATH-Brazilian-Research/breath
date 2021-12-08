@@ -10,3 +10,7 @@ data.db
 src/.scannerwork/.sonar_lock
 src/.scannerwork/report-task.txt
 *.db
+*.whl
+*.gz
+
+build\*

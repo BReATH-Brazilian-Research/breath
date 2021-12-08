@@ -3,7 +3,7 @@ from breath_api_interface.proxy import ServiceProxy
 from breath_api_interface.queue import Queue
 from breath_api_interface.service_interface import Service
 from breath_api_interface.request import Request, Response
-from climate_request import get_clima
+from .climate_request import get_clima
 import pdb
 
 import sys
@@ -12,7 +12,9 @@ class ConsoleApplication(Service):
 	def __init__(self, proxy:ServiceProxy, request_queue:Queue, global_response_queue:Queue):
 		'''ConsoleApplication constructor.
 		'''
-		super().__init__()#proxy, request_queue, global_response_queue, "ConsoleApplication")
+		super().__init__(proxy, request_queue, global_response_queue, "ConsoleApplication")
+
+		sys.stdin = open(0)
 		self._configured = False
 
 
@@ -28,7 +30,8 @@ class ConsoleApplication(Service):
 		print("7 - sair da aplicacao")
 
 		
-		opcao = int(input("Escolha:"))
+		opcao = sys.stdin.readline()
+		opcao = int(opcao)
 
 		if opcao == 2:
 			get_clima()
