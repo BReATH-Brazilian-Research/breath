@@ -3,7 +3,7 @@ from breath_api_interface.proxy import ServiceProxy
 from breath_api_interface.queue import Queue
 from breath_api_interface.service_interface import Service
 from breath_api_interface.request import Request, Response
-from .climate_request import get_clima
+from ..data_requester.climate_request import get_clima
 import pdb
 
 import sys
