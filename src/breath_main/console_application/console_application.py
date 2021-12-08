@@ -44,9 +44,4 @@ class ConsoleApplication(Service):
 		#else:
 		#    print("Erro: ", response.response_data["message"])
 
-if __name__ == '__main__':
-	console = ConsoleApplication()
-	flag = True
-	while flag == True:
-		flag = console.run()
 	
