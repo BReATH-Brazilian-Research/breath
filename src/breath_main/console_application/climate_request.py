@@ -24,7 +24,7 @@ def get_clima():
 		now = datetime.datetime.now()
 
 		if prev > now:
-			print("para a hora:", prev)
+			print(f"Para {city}, na hora:", prev)
 			print("Umidade",round(item['humidity']),"%")
 			print("Pressão",round(item['pressure']),"Pa")
 			print("Máxima",round(item['temp']['average_max']-273,1),"ºC")
