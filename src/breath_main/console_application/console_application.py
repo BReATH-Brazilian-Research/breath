@@ -27,7 +27,7 @@ class ConsoleApplication(Service):
 		print("4 - Probablidade de doencas agora")
 		print("5 - Registrar meus sintomas")
 		print("6 - Ver historico de sintomas")
-		print("7 - sair da aplicacao")
+		print("7 - Sair da aplicacao")
 
 		
 		opcao = sys.stdin.readline()
