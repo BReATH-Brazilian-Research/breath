@@ -70,6 +70,6 @@ def get_clima():
 			#remaining = int(response.headers['x-ratelimit-requests-remaining'])
 	 		#print("You have %d requests left" % remaining)
 		else:
-			print("Nao pudemos achar os dados de qualidade do ar para sua cidade")
+			print("Não pudemos achar os dados de qualidade do ar para sua cidade")
 	else:
-		print("Nao possuimos informacoes da sua cidade")
+		print("Não possuímos informações da sua cidade")
