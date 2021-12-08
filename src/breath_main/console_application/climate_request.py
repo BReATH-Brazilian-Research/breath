@@ -73,7 +73,3 @@ def get_clima():
 			print("Nao pudemos achar os dados de qualidade do ar para sua cidade")
 	else:
 		print("Nao possuimos informacoes da sua cidade")
-
-
-if __name__ == "__main__":
-	get_clima()
