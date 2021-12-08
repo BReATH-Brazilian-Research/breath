@@ -1,14 +1,15 @@
-#from breath_api_interface import request
-#from breath_api_interface.proxy import ServiceProxy
-#from breath_api_interface.queue import Queue
-#from breath_api_interface.service_interface import Service
-#from breath_api_interface.request import Request, Response
+from breath_api_interface import request
+from breath_api_interface.proxy import ServiceProxy
+from breath_api_interface.queue import Queue
+from breath_api_interface.service_interface import Service
+from breath_api_interface.request import Request, Response
+from climate_request import get_clima
 import pdb
 
 import sys
 
-class ConsoleApplication():#Service):
-	def __init__(self):#, proxy:ServiceProxy, request_queue:Queue, global_response_queue:Queue):
+class ConsoleApplication(Service):
+	def __init__(self, proxy:ServiceProxy, request_queue:Queue, global_response_queue:Queue):
 		'''ConsoleApplication constructor.
 		'''
 		super().__init__()#proxy, request_queue, global_response_queue, "ConsoleApplication")
@@ -28,9 +29,10 @@ class ConsoleApplication():#Service):
 
 		
 		opcao = int(input("Escolha:"))
-		pdb.set_trace()
 
-		if opcao == 7:
+		if opcao == 2:
+			get_clima()
+		elif opcao == 7:
 			return False
 		return True
 
