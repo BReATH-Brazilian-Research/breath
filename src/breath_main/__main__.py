@@ -8,5 +8,5 @@ if __name__ == '__main__':
     session_manager = ProcessSessionManager()
     session_manager.create_service("ConsoleApplication")
     
-    while True:
+    while session_manager.runnig:
         session_manager.run()

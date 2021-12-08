@@ -17,11 +17,14 @@ class ProcessSessionManager:
         self._queue = ProcessQueue()
         self._global_response_queue = ProcessQueue()
         self._sm_response_queue = ProcessQueue()
+        self._request_queue = ProcessQueue()
 
         self._service_constructor = ProcessServiceConstructor()
         self._request_manager = RequestManager(self._queue, self._global_response_queue, self)
 
-        self._request_manager.register_service("SESSION_MANAGER", None, self._sm_response_queue)
+        self._request_manager.register_service("SESSION_MANAGER", self._request_queue, self._sm_response_queue)
+
+        self._running = True
 
     def create_service(self, service_name:str):
         request_queue, response_queue = self._service_constructor.create_service(service_name, self._queue, self._global_response_queue)
@@ -32,7 +35,19 @@ class ProcessSessionManager:
         self._request_manager.register_service(service_name, request_queue, response_queue)
 
     def run(self):
+        if not self._running:
+            return
+
         self._request_manager.process_request()
+
+        if self._request_queue.empty():
+            return
+
+        req :Request = self._request_queue.get()
+
+        if req.operation_name == "exit":
+            self._running = False
+
 
     def send_request(self, service_name, operation_name, request_info=None, wait_for_response=True):
         request = Request(service_name, operation_name, "SESSION_MANAGER", request_info, wait_for_response)
@@ -52,3 +67,7 @@ class ProcessSessionManager:
 
     def __del__(self):
         del self._service_constructor
+
+    @property
+    def runnig(self):
+        return self._running
