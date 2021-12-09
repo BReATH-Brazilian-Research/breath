@@ -1,0 +1,98 @@
+image: python:3.8
+
+stages:
+  - cache
+  - before_script
+  - build
+  - test
+  - deploy
+  - complete
+
+variables:
+  PIP_CACHE_DIR: "$CI_PROJECT_DIR/.cache/pip"
+
+cache:
+  paths:
+    - .cache/pip
+    - venv/
+
+  only:
+    - main
+
+before_script:
+  - python -V  # Print out python version for debugging
+  - pip install virtualenv
+  - virtualenv venv
+  - source venv/bin/activate
+
+  only:
+    - main
+
+build_main:
+  stage: build
+  script:
+    - git clone https://gitlab.com/breath_unicamp/breath_data.git
+    - git clone https://gitlab.com/breath_unicamp/breath_api_interface.git
+    - python3 -m pip install breath_api_interface
+    - python3 -m pip install breath_data/module
+    - python3 -m pip install --upgrade build
+    - python3 -m build breath_api_interface
+    - python3 -m build breath_data/module
+    - python3 -m build
+    - python3 -m pip install .
+   
+  only:
+    - main
+
+
+  artifacts:
+    paths:
+      - dist/*.whl
+      - breath_data/module/dist/*.whl
+      - breath_api_interface/dist/*.whl
+  
+test:
+  stage: test
+  script:
+    - pip3 install pytest
+    - pytest test --junitxml=report.xml
+
+  only:
+    - main
+
+
+pypi_release_breath_data:
+  stage: deploy
+  script:
+    - python3 -m pip install --upgrade twine
+    - python3 -m twine upload breath_data/module/dist/* -u __token__ -p $pypy_token_data
+
+  dependencies:
+    - build_main
+
+  only:
+    - main
+
+pypi_release_api:
+  stage: deploy
+  script:
+    - python3 -m pip install --upgrade twine
+    - python3 -m twine upload breath_api_interface/dist/* -u __token__ -p $pypy_token_api
+
+  dependencies:
+    - build_main
+
+  only:
+    - main
+
+pypi_release:
+  stage: deploy
+  script:
+    - python3 -m pip install --upgrade twine
+    - python3 -m twine upload dist/* -u __token__ -p $pypy_token_main
+      
+  dependencies:
+    - build_main
+
+  only:
+    - main

@@ -1,0 +1,15 @@
+- Install tools:
+  - `python -m pip install --upgrade build`
+  - `python -m pip install --upgrade twine`
+
+- Build: `python -m build`
+- Test package in testpypi:
+  - Create [testpypi](https://test.pypi.org/account/register/) account
+  - Create an [API token](https://test.pypi.org/manage/account/#api-tokens)
+  - Upload: `python -m twine upload --repository testpypi dist/*`
+    - Username: `__token__`
+    - Password: your token
+- Upload to PyPI:
+  - Create [pypi](https://pypi.org/) account
+  - Ask for be added to BReATH project
+  - `python -m twine upload dist/*`, it will ask for your credentials

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="10" time="1.631" timestamp="2021-11-30T19:56:41.593853" hostname="DESKTOP-T1JIEDP"><testcase classname="test.bda_test.BDTest" name="test_data_insertion" time="0.541"><failure message="AssertionError: False != True within 7 places (1 difference)">self = &lt;test.bda_test.BDTest testMethod=test_data_insertion&gt;
+
+    def test_data_insertion(self):
+    	self.session_session = ProcessSessionManager()
+    	self.session_session.create_service("BDAcessPoint")
+    
+    	a = self.session_session.send_request("BDAcessPoint", "register_user", request_info = {"name":'Joao',"age":'19', "gender":'Helicoptero Apache'}, wait_for_response=True)
+    
+    	#send_request(self, service_name, operation_name, request_info=None, wait_for_response=True)
+    	self.assertAlmostEqual(self.session_session.send_request("BDAcessPoint", "register_user", request_info = {"name":'Joao',"age":'19', "gender":'Helicoptero Apache'}, wait_for_response=True).sucess, True)
+    	#self.assertAlmostEqual(self.session_session.send_request("BDAcessPoint", "register_symptom", request_info = {"symptom_name":'TOSSE',"year":'19', 'month':'Helicoptero Apache', "day":'day'}, wait_for_response=True), True)
+    	# self.assertAlmostEqual(self.session_session.send_request("BDAcessPoint", "register_symptom_type", request_info = {name:'Joao',age:'19', gender:'Helicoptero Apache'}, wait_for_response=True), Success)
+&gt;   	self.assertAlmostEqual(self.session_session.send_request("BDAcessPoint", "register_city", request_info = {"cod":'323',"nome":'Varginha', "uf":'VW'}, wait_for_response=True).sucess, True)
+E    AssertionError: False != True within 7 places (1 difference)
+
+test\bda_test.py:18: AssertionError</failure></testcase><testcase classname="test.bda_test.BDTest" name="test_data_query" time="0.498"><failure message="AssertionError: False != True within 7 places (1 difference)">self = &lt;test.bda_test.BDTest testMethod=test_data_query&gt;
+
+    def test_data_query(self):
+    	self.session_session = ProcessSessionManager()
+    	self.session_session.create_service("BDAcessPoint")
+&gt;   	self.assertAlmostEqual(self.session_session.send_request("BDAcessPoint", "search_symptom_type", request_info = {"symptom_name":'TOSSE'}, wait_for_response=True).sucess, True)
+E    AssertionError: False != True within 7 places (1 difference)
+
+test\bda_test.py:25: AssertionError</failure></testcase><testcase classname="test.process_symptoms_test.SymptomsRegisterTest" name="test_1" time="0.001" /><testcase classname="test.process_symptoms_test.SymptomsRegisterTest" name="test_2" time="0.000" /><testcase classname="test.process_symptoms_test.SymptomsRegisterTest" name="test_3" time="0.000" /><testcase classname="test.process_symptoms_test.SymptomsRegisterTest" name="test_4" time="0.000" /><testcase classname="test.process_symptoms_test.SymptomsRegisterTest" name="test_5" time="0.000" /><testcase classname="test.process_symptoms_test.SymptomsRegisterTest" name="test_6" time="0.000" /><testcase classname="test.process_symptoms_test.SymptomsRegisterTest" name="test_7" time="0.000" /><testcase classname="test.process_symptoms_test.SymptomsRegisterTest" name="test_8" time="0.000" /></testsuite></testsuites>
