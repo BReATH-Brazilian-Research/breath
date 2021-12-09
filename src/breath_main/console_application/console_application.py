@@ -7,7 +7,7 @@ from ..data_requester.climate_request import get_clima
 import pdb
 
 import sys
-import datetime as date
+from datetime import date
 
 class ConsoleApplication(Service):
 	def __init__(self, proxy:ServiceProxy, request_queue:Queue, global_response_queue:Queue):
@@ -52,13 +52,13 @@ class ConsoleApplication(Service):
 	
 	def register_symptom(self) -> bool:
 		# Registrar paciente
-		email = input("Qual o seu email?")
+		email = input("Qual o seu email?\n")
 
 		# Registrar cidade
-		city = input("Em qual cidade você se encontra?")
+		city = input("Em qual cidade você se encontra?\n")
 
 		# Registrar tipo de sintoma
-		symptom_name = input("Qual sintoma você deseja registrar?")
+		symptom_name = input("Qual sintoma você deseja registrar?\n")
 
 		# Coletar tempo
 		today = date.today()
