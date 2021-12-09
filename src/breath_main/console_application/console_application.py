@@ -50,8 +50,9 @@ class ConsoleApplication(Service):
 		print("2 - Dados climáticos atuais de qualidade do ar de uma cidade")
 
 		if self._configured:
-			print("3 - Histórico de sintomas da cidade")
-			print("4 - Casos de sintomas na cidade por data")
+			print("3 - Histórico de sintomas em uma cidade")
+			print("4 - Casos de sintomas em uma cidade por data")
+			print("5 - Histórico de temperatura em uma cidade (Aviso: em otimização)")
 			print("5 - Probablidade de doenças agora")
 			print("6 - Registrar meus sintomas")
 			print("7 - Ver histórico de sintomas")
@@ -78,6 +79,8 @@ class ConsoleApplication(Service):
 				self._print_casos()
 			if opcao == 4:
 				self._print_casos_dia()
+			if opcao == 5:
+				self._plot_temperatura()
 
 	def _get_city_name(self) -> str:
 		print("Digite o nome da cidade")
@@ -108,6 +111,29 @@ class ConsoleApplication(Service):
 		casos : np.ndarray = data[:, casos_index].flatten().astype(np.float32)
 
 		return dias, casos
+
+	def _get_temperatura(self,  nome_cidade):
+		response = self._send_request("BDAcessPoint", "get_temperature", {"city_name":nome_cidade})
+
+		data = response.response_data["data"]
+		description = response.response_data["description"]
+
+		data = np.asarray(data)
+		if len(data) == 0:
+			print("Cidade não existente na base de dados")
+			return None, None
+
+
+		description = np.asarray(description)
+		dia_index = np.argwhere(description=="DIA")
+		temp_min_index = np.argwhere(description=="Temp_min")
+		temp_max_index = np.argwhere(description=="Temp_max")
+
+		dias : np.ndarray= data[:, dia_index].flatten().astype(np.float32)
+		temp_min : np.ndarray = data[:, temp_min_index].flatten().astype(np.float32)
+		temp_max : np.ndarray = data[:, temp_max_index].flatten().astype(np.float32)
+
+		return dias, temp_min, temp_max
 
 	def _print_casos(self):
 		nome_cidade = self._get_city_name()
@@ -158,3 +184,15 @@ class ConsoleApplication(Service):
 		casos_dia = casos[index].flatten()
 
 		print("Casos em "+ data + " na cidade de "+nome_cidade+": "+str(casos_dia[0]))
+
+	def _plot_temperatura(self):
+		nome_cidade = self._get_city_name()
+		dias, temp_min, temp_max = self._get_temperatura(nome_cidade)
+
+		plt.plot(dias, temp_min)
+		plt.plot(dias, temp_max)
+		plt.xlabel("Dias")
+		plt.ylabel("Temperatura [ºC]")
+		plt.legend(["Temperatura mínima", "Temperatura máxima"])
+		plt.title("Histórico de temperatura na cidade de "+nome_cidade)
+		plt.show()
