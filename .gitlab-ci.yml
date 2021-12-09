@@ -16,11 +16,17 @@ cache:
     - .cache/pip
     - venv/
 
+  only:
+    - main
+
 before_script:
   - python -V  # Print out python version for debugging
   - pip install virtualenv
   - virtualenv venv
   - source venv/bin/activate
+
+  only:
+    - main
 
 build_main:
   stage: build
@@ -35,6 +41,10 @@ build_main:
     - python3 -m build
     - python3 -m pip install .
    
+  only:
+    - main
+
+
   artifacts:
     paths:
       - dist/*.whl
@@ -47,30 +57,42 @@ test:
     - pip3 install pytest
     - pytest test --junitxml=report.xml
 
+  only:
+    - main
+
 
 pypi_release_breath_data:
-    stage: deploy
-    script:
-        - python3 -m pip install --upgrade twine
-        - python3 -m twine upload breath_data/module/dist/* -u __token__ -p $pypy_token_data
+  stage: deploy
+  script:
+    - python3 -m pip install --upgrade twine
+    - python3 -m twine upload breath_data/module/dist/* -u __token__ -p $pypy_token_data
 
-    dependencies:
-      - build_main
+  dependencies:
+    - build_main
+
+  only:
+    - main
 
 pypi_release_api:
-    stage: deploy
-    script:
-        - python3 -m pip install --upgrade twine
-        - python3 -m twine upload breath_api_interface/dist/* -u __token__ -p $pypy_token_api
+  stage: deploy
+  script:
+    - python3 -m pip install --upgrade twine
+    - python3 -m twine upload breath_api_interface/dist/* -u __token__ -p $pypy_token_api
 
-    dependencies:
-      - build_main
+  dependencies:
+    - build_main
+
+  only:
+    - main
 
 pypi_release:
-    stage: deploy
-    script:
-        - python3 -m pip install --upgrade twine
-        - python3 -m twine upload dist/* -u __token__ -p $pypy_token_main
+  stage: deploy
+  script:
+    - python3 -m pip install --upgrade twine
+    - python3 -m twine upload dist/* -u __token__ -p $pypy_token_main
       
-    dependencies:
-      - build_main
+  dependencies:
+    - build_main
+
+  only:
+    - main
