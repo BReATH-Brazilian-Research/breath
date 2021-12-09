@@ -9,6 +9,7 @@ import pdb
 
 import unicodedata
 import sys
+import datetime
 
 import numpy as np
 from matplotlib import pyplot as plt
@@ -47,11 +48,12 @@ class ConsoleApplication(Service):
 		print("2 - Dados climáticos atuais de qualidade do ar de uma cidade")
 
 		if self._configured:
-			print("3 - Histórico de doenças respiratórias da cidade")
-			print("4 - Probablidade de doenças agora")
-			print("5 - Registrar meus sintomas")
-			print("6 - Ver histórico de sintomas")
-		print("7 - Sair da aplicação")
+			print("3 - Histórico de sintomas da cidade")
+			print("4 - Casos de sintomas na cidade por data")
+			print("5 - Probablidade de doenças agora")
+			print("6 - Registrar meus sintomas")
+			print("7 - Ver histórico de sintomas")
+		print("0 - Sair da aplicação")
 
 		
 		opcao = self._input()
@@ -67,19 +69,24 @@ class ConsoleApplication(Service):
 		
 		elif opcao == 2:
 			get_clima()
-		elif opcao == 7:
+		elif opcao == -1:
 			self._send_request("SESSION_MANAGER", "exit")
 		elif self._configured:
 			if opcao == 3:
 				self._print_casos()
+			if opcao == 0:
+				self._print_casos_dia()
 
-	def _print_casos(self):
+	def _get_city_name(self) -> str:
 		print("Digite o nome da cidade")
 		
 		nome_cidade = self._input()
 		nome_cidade = strip_accents(nome_cidade)
 		nome_cidade = str.lower(nome_cidade)
 
+		return nome_cidade
+
+	def _get_casos(self, nome_cidade):
 		response = self._send_request("BDAcessPoint", "get_casos", {"city_name":nome_cidade})
 
 		data = response.response_data["data"]
@@ -94,13 +101,32 @@ class ConsoleApplication(Service):
 		dias : np.ndarray= data[:, dia_index].flatten().astype(np.float32)
 		casos : np.ndarray = data[:, casos_index].flatten().astype(np.float32)
 
+		return dias, casos
+
+	def _print_casos(self):
+		nome_cidade = self._get_city_name()
+		dias, casos = self._get_casos(nome_cidade)
+
 		plt.plot(dias, casos)
 		plt.ylabel("Casos diários")
 		plt.xlabel("Dia")
 		plt.suptitle("Casos em "+nome_cidade)
 		plt.title("Febre, gripe ou dor de garganta")	
-		
-		#ticks = np.arange(dias.min(), dias.max(), 100.0)
-		#plt.xticks(ticks)
 
 		plt.show()
+
+	def _print_casos_dia(self):
+		nome_cidade = self._get_city_name()
+		dias, casos = self._get_casos(nome_cidade)
+
+		print("Digite o dia desejado no formato dd/mm/aaaa")
+		data = self._input()
+
+		dt = datetime.datetime.strptime(data, "%d/%m/%Y")
+		dia = dt.timestamp()/86400
+		dia = int(dia)
+
+		index = np.argwhere(dias == dia)
+		casos_dia = casos[index].flatten()
+
+		print("Casos em "+ data + " na cidade de "+nome_cidade+": "+str(casos_dia[0]))
