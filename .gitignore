@@ -14,3 +14,5 @@ src/.scannerwork/report-task.txt
 *.gz
 
 build\*
+
+*.db

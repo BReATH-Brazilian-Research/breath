@@ -35,8 +35,6 @@ class ProcessServiceConstructor:
 
         print("LOG: INICIANDO", service_name)
 
-        
-
         p = Process(target = create_and_run_service, args=(service_class, proxy, request_queue, global_response_queue), daemon=True)
         p.start()
 
