@@ -4,11 +4,11 @@ from breath_api_interface.proxy import ServiceProxy
 from breath_api_interface.queue import Queue
 from breath_api_interface.service_interface import Service
 from breath_api_interface.request import Request, Response
-from .climate_request import get_clima
-import pdb
+from ..data_requester.climate_request import get_clima
 
 import unicodedata
 import sys
+from datetime import date
 import datetime
 
 import numpy as np
@@ -61,6 +61,8 @@ class ConsoleApplication(Service):
 			print("8 - Procurar por cidade")
 			print("9 - Limpar cidade atual")
 			print("10 - Predizer casos")
+			print("5 - Probablidade de doenças agora")
+			print("7 - Registrar meus sintomas")
 		print("0 - Sair da aplicação")
 
 		
