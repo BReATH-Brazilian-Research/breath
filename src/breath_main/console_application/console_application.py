@@ -53,16 +53,16 @@ class ConsoleApplication(Service):
 		print("Escolha uma opção:")
 		print("1 - Construir base de dados")
 		print("2 - Dados climáticos atuais de qualidade do ar de uma cidade")
+		print("3 - Procurar por cidade")
 
 		if self._configured:
-			print("3 - Histórico de sintomas em uma cidade")
-			print("4 - Casos de sintomas em uma cidade por data")
-			print("5 - Histórico de temperatura em uma cidade (Aviso: em otimização)")
-			print("8 - Procurar por cidade")
+			print("4 - Histórico de sintomas em uma cidade")
+			print("5 - Casos de sintomas em uma cidade por data")
+			print("6 - Histórico de temperatura em uma cidade (Aviso: em otimização)")
+			print("7 - Predizer casos")
+			print("8 - Registrar meus sintomas")
+		if self._city is not None:
 			print("9 - Limpar cidade atual")
-			print("10 - Predizer casos")
-			print("5 - Probablidade de doenças agora")
-			print("7 - Registrar meus sintomas")
 		print("0 - Sair da aplicação")
 
 		
@@ -83,17 +83,19 @@ class ConsoleApplication(Service):
 			self._send_request("SESSION_MANAGER", "exit")
 		elif self._configured:
 			if opcao == 3:
-				self._print_casos()
-			if opcao == 4:
-				self._print_casos_dia()
-			if opcao == 5:
-				self._plot_temperatura()
-			if opcao == 8:
 				self._procurar_por_cidade()
-			if opcao == 9:
-				self._clear_city()
-			if opcao == 10:
+			elif opcao == 4:
+				self._print_casos()
+			elif opcao == 5:
+				self._print_casos_dia()
+			elif opcao == 6:
+				self._plot_temperatura()
+			elif opcao == 7:
 				self._predizer_casos()
+			elif opcao == 8:
+				self._register_symptom()
+			elif opcao == 9:
+				self._clear_city()
 
 	def _get_city_name(self) -> str:
 		if self._city is not None:
@@ -283,3 +285,27 @@ class ConsoleApplication(Service):
 		prediction = response.response_data["prediction"]
 
 		print("Predizemos que nesse momento ocorrem", int(prediction), "casos de febre, dor de garganta ou tosse hospitalizados")
+
+	def _register_symptom(self) -> bool:
+		# Registrar paciente
+		email = input("Qual o seu email?\n")
+
+		# Registrar cidade
+		city = input("Em qual cidade você se encontra?\n")
+
+		# Registrar tipo de sintoma
+		symptom_name = input("Qual sintoma você deseja registrar?\n")
+
+		# Coletar tempo
+		today = date.today()
+		today_str = today.strftime("%d/%m/%Y")
+		day = int(today_str[:2])
+		month = int(today_str[3:5])
+		year = int(today_str[6:])
+
+		# Registrar sintoma
+		response : Response = self._send_request("BDAcessPoint", "register_symptom", request_info={"symptom_name": symptom_name,"year":year,"month":month,"day":day,"patient_id":email,"city":city})
+		
+		if (response.sucess == False):
+			print(response.response_data["message"])
+		return response.sucess
