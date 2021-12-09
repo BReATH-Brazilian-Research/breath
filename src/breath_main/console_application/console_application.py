@@ -91,13 +91,16 @@ class ConsoleApplication(Service):
 
 		data = np.asarray(data)
 
-		dias = data[:, dia_index].flatten()
-		casos = data[:, casos_index].flatten()
+		dias : np.ndarray= data[:, dia_index].flatten().astype(np.float32)
+		casos : np.ndarray = data[:, casos_index].flatten().astype(np.float32)
 
 		plt.plot(dias, casos)
 		plt.ylabel("Casos diários")
 		plt.xlabel("Dia")
 		plt.suptitle("Casos em "+nome_cidade)
-		plt.title("Febre, gripe ou dor de garganta")
+		plt.title("Febre, gripe ou dor de garganta")	
+		
+		#ticks = np.arange(dias.min(), dias.max(), 100.0)
+		#plt.xticks(ticks)
 
 		plt.show()
