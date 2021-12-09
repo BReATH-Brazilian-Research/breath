@@ -7,9 +7,12 @@ from breath_api_interface import SimpleQueue, Request
 #Import annotations for class type hint inside itself in versions <3.10.x
 import sys
 
+from breath_api_interface.queue import Queue
+
 class RequestHandler(ABC): 
-    def __init__(self):
+    def __init__(self, global_response_queue:Queue):
         self._next = None 
+        self._reponse_queue = global_response_queue
     
     @property
     def next(self) -> RequestHandler:

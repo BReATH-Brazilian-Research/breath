@@ -29,11 +29,11 @@ class RequestManager:
     def _start_pipeline(self) -> None:
         '''Initializes the processing pipeline.    
         '''
-        self._incoming_handler = IncomingHandler(self._incoming_queue)
-        self._validation_handler = ValidationHandler()
-        self._availability_handler = AvailabilityHandler(self._session_manager)
-        self._permission_handler = PermissionHandler()
-        self._execution_handler = ExecutionHandler()
+        self._incoming_handler = IncomingHandler(self._incoming_queue, self._global_request_queue)
+        self._validation_handler = ValidationHandler(self._global_request_queue)
+        self._availability_handler = AvailabilityHandler(self._session_manager, self._global_request_queue)
+        self._permission_handler = PermissionHandler(self._global_request_queue)
+        self._execution_handler = ExecutionHandler(self._global_request_queue)
         self._response_handler = ResponseHandler(self._global_request_queue)
 
         self._incoming_handler.next = self._validation_handler

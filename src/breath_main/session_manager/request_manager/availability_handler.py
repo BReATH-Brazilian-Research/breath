@@ -1,11 +1,10 @@
 from breath_api_interface import Request
-from breath_api_interface.request import Response
 from breath_main.session_manager.request_manager.request_handler import RequestHandler
 
 class AvailabilityHandler(RequestHandler):
 
-    def __init__(self, session_manager):
-        super().__init__()
+    def __init__(self, session_manager, response_queue):
+        super().__init__(response_queue)
 
         self._available_services = []
         self._session_manager = session_manager
@@ -19,7 +18,7 @@ class AvailabilityHandler(RequestHandler):
             sucess = self._session_manager.create_service(request.service_name)
         
         if not sucess:
-            resp = Response(False, response_data={"message":"Service no available"})
-            request.send_response(resp)
+            resp = request.create_response(False, response_data={"message":"Service no available"})
+            self._reponse_queue.insert(resp)
         else:
             self._send_for_next(request)

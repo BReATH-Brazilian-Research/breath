@@ -5,8 +5,8 @@ from breath_main.session_manager.request_manager.request_handler import RequestH
 
 class ExecutionHandler(RequestHandler):
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, response_queue:Queue):
+        super().__init__(response_queue)
 
         self._service_registry : dict[str, Queue] = {}
 

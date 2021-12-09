@@ -1,5 +1,6 @@
 from enum import Enum
 import operator
+from breath_api_interface.queue import Queue
 
 from breath_api_interface.request import Request, Response
 from breath_main.session_manager.login_manager import UserLevel
@@ -45,13 +46,13 @@ class PermissionHandler(RequestHandler):
         :type _user_level: breath.session_manager.login_manager.UserLevel
     '''
 
-    def __init__(self, user_level = UserLevel.NO_LOGIN):
+    def __init__(self, response_queue:Queue, user_level = UserLevel.NO_LOGIN):
         '''PermissionHandler constructor.
 
             :param user_level: Actual user level of the user
             :type user_level: breath.session_manager.login_manager.UserLevel
         '''
-        super().__init__()
+        super().__init__(response_queue)
 
         self._permission_info : dict[str, dict[str, list[PermissionInfo]]] = {} #[sevice_name][operation_name]
         self._user_level :UserLevel = user_level

@@ -34,6 +34,8 @@ class ProcessSessionManager:
 
         self._request_manager.register_service(service_name, request_queue, response_queue)
 
+        return True
+
     def run(self):
         if not self._running:
             return

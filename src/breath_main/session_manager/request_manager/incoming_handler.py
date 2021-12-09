@@ -5,8 +5,8 @@ from breath_main.session_manager.request_manager.request_handler import RequestH
 
 class IncomingHandler(RequestHandler):
 
-    def __init__(self, incoming_queue:Queue):
-        super().__init__()
+    def __init__(self, incoming_queue:Queue, response_queue:Queue):
+        super().__init__(response_queue)
         self._incoming_queue = incoming_queue
 
     def process_request(self):
