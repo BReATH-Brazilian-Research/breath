@@ -7,6 +7,7 @@ from ..data_requester.climate_request import get_clima
 import pdb
 
 import sys
+import datetime as date
 
 class ConsoleApplication(Service):
 	def __init__(self, proxy:ServiceProxy, request_queue:Queue, global_response_queue:Queue):
@@ -46,5 +47,31 @@ class ConsoleApplication(Service):
 		#    print("Operação realizada com sucesso!")
 		#else:
 		#    print("Erro: ", response.response_data["message"])
+	
+	def register_symptom(self) -> None:
+		# Registrar paciente
+		email = input("Qual o seu email?")
+
+		# Registrar cidade
+		city = input("Em qual cidade você se encontra?")
+
+		# Registrar tipo de sintoma
+		symptom_name = input("Qual sintoma você deseja registrar?")
+		response : Response = self._send_request("BDAcessPoint", "register_symptom_type", request_info={"symptom_name": symptom_name})
+		if (response.sucess == False):
+			print(response.response_data["mensagem"])
+
+		# Coletar tempo
+		today = date.today()
+		today_str = today.strftime("%d/%m/%Y")
+		day = int(today_str[:2])
+		month = int(today_str[3:5])
+		year = int(today_str[6:])
+
+		# Registrar sintoma
+		reponse : Response = self._send_request("BDAcessPoint", "register_symptom", request_info={"symptom_name": symptom_name,"year":year,"month":month,"day":day})
+		if (response.sucess == False):
+			print(response.response_data["mensagem"])
+		return
 
 	
