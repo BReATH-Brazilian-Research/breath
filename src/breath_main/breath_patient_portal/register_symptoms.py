@@ -20,8 +20,7 @@ class RegisterSymptoms(Service):
         month = int(today_str[3:5])
         year = int(today_str[6:])
 
-        # TODO: IMPLEMENTAR COLETAR CIDADE
-        city = "Campinas"
+        city = input("Digite uma cidade omitindo os acentos e ç:")
 
         # TODO: IMPLEMENTAR GERAR/OBTER CODIGO DO USUARIO
         cod = 12345

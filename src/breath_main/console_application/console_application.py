@@ -5,7 +5,6 @@ from breath_api_interface.queue import Queue
 from breath_api_interface.service_interface import Service
 from breath_api_interface.request import Request, Response
 from ..data_requester.climate_request import get_clima
-import pdb
 
 import unicodedata
 import sys
@@ -206,8 +205,9 @@ class ConsoleApplication(Service):
 
 		# Registrar sintoma
 		response : Response = self._send_request("BDAcessPoint", "register_symptom", request_info={"symptom_name": symptom_name,"year":year,"month":month,"day":day,"patient_id":email,"city":city})
+		
 		if (response.sucess == False):
-			print(response.response_data["mensagem"])
+			print(response.response_data["message"])
 		return response.sucess
 	def _plot_temperatura(self):
 		nome_cidade = self._get_city_name()
