@@ -32,7 +32,7 @@ We have some features implemented:
 - Plot a city's history of cases of fever, cough, or sore throat. Implements [#27](https://gitlab.com/breath_unicamp/breath-brazilian-research-of-atmosphere-towards-health/-/issues/27)
 - Show a city's cases in some specific date. Implements [#28](https://gitlab.com/breath_unicamp/breath-brazilian-research-of-atmosphere-towards-health/-/issues/28)
 - View current weather data in the city. Implements [#21](https://gitlab.com/breath_unicamp/breath-brazilian-research-of-atmosphere-towards-health/-/issues/21), [#13](https://gitlab.com/breath_unicamp/breath-brazilian-research-of-atmosphere-towards-health/-/issues/13), [#39](https://gitlab.com/breath_unicamp/breath-brazilian-research-of-atmosphere-towards-health/-/issues/39).
-- Predicts the occurrence of current cases of fever, flu or cough in the city. Implements [#33](https://gitlab.com/breath_unicamp/breath-brazilian-research-of-atmosphere-towards-health/-/issues/33).
+- Predicts the occurrence of current cases of fever, flu or cough in the city. Implements [#33](https://gitlab.com/breath_unicamp/breath-brazilian-research-of-atmosphere-towards-health/-/issues/33). NOTE: The model is still under development, and at the moment it does not make very correct predictions.
 
 
 # Authors
