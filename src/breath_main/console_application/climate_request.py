@@ -1,10 +1,10 @@
 import requests, json, pdb, datetime
 
-def get_clima():
+def get_clima(city_name, print=True):
 
 	url = "https://community-open-weather-map.p.rapidapi.com/climate/month"
 
-	city = input("Digite uma cidade omitindo os acentos e ç:")
+	city = city_name
 
 	querystring = {"q":city}
 
@@ -26,11 +26,13 @@ def get_clima():
 		now = datetime.datetime.now()
 
 		if prev > now:
-			print(f"Para {city}, na hora:", prev)
-			print("Umidade",round(item['humidity']),"%")
-			print("Pressão",round(item['pressure']),"Pa")
-			print("Máxima",round(item['temp']['average_max']-273,1),"ºC")
-			print("Mínima",round(item['temp']['average_min']-273,1),"ºC")
+			if(print):
+
+				print(f"Para {city}, na hora:", prev)
+				print("Umidade",round(item['humidity']),"%")
+				print("Pressão",round(item['pressure']),"Pa")
+				print("Máxima",round(item['temp']['average_max']-273,1),"ºC")
+				print("Mínima",round(item['temp']['average_min']-273,1),"ºC")
 
 			result = {}
 			result["Umidade"] = item['humidity']
@@ -80,8 +82,10 @@ def get_clima():
 			#remaining = int(response.headers['x-ratelimit-requests-remaining'])
 	 		#print("You have %d requests left" % remaining)
 		else:
-			print("Nao pudemos achar os dados de qualidade do ar para sua cidade")
+			if(print):
+				print("Nao pudemos achar os dados de qualidade do ar para sua cidade")
 	else:
-		print("Nao possuimos informacoes da sua cidade")
+		if(print):
+			print("Nao possuimos informacoes da sua cidade")
 
 	return result

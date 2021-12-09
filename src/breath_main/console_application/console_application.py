@@ -76,7 +76,7 @@ class ConsoleApplication(Service):
 				print("Problema ao iniciar banco de dados: "+response.response_data["message"])
 		
 		elif opcao == 2:
-			get_clima()
+			get_clima(self._get_city_name())
 		elif opcao == 0:
 			self._send_request("SESSION_MANAGER", "exit")
 		elif self._configured:
@@ -262,7 +262,7 @@ class ConsoleApplication(Service):
 		city_name = self._get_city_name()
 		pop, _, _, _ = self._get_city(city_name)
 
-		features = get_clima()
+		features = get_clima(city_name, False)
 
 		if features is None:
 			return
@@ -280,4 +280,4 @@ class ConsoleApplication(Service):
 
 		prediction = response.response_data["prediction"]
 
-		print("Predizemos que nesse momento ocorrem", prediction, "casos de febre, dor de garganta ou tosse hospitalizados")
+		print("Predizemos que nesse momento ocorrem", int(prediction), "casos de febre, dor de garganta ou tosse hospitalizados")
