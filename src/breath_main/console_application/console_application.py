@@ -60,6 +60,7 @@ class ConsoleApplication(Service):
 			print("5 - Histórico de temperatura em uma cidade (Aviso: em otimização)")
 			print("8 - Procurar por cidade")
 			print("9 - Limpar cidade atual")
+			print("10 - Predizer casos")
 		print("0 - Sair da aplicação")
 
 		
@@ -75,7 +76,7 @@ class ConsoleApplication(Service):
 				print("Problema ao iniciar banco de dados: "+response.response_data["message"])
 		
 		elif opcao == 2:
-			get_clima()
+			get_clima(self._get_city_name())
 		elif opcao == 0:
 			self._send_request("SESSION_MANAGER", "exit")
 		elif self._configured:
@@ -89,6 +90,8 @@ class ConsoleApplication(Service):
 				self._procurar_por_cidade()
 			if opcao == 9:
 				self._clear_city()
+			if opcao == 10:
+				self._predizer_casos()
 
 	def _get_city_name(self) -> str:
 		if self._city is not None:
@@ -104,10 +107,8 @@ class ConsoleApplication(Service):
 	
 	def _clear_city(self):
 		self._city = None
-
-	def _procurar_por_cidade(self):
-		city_name = self._get_city_name()
-
+	
+	def _get_city(self, city_name):
 		response = self._send_request("BDAcessPoint", "get_city", {"city_name":city_name})
 
 		data = response.response_data["data"]
@@ -116,7 +117,7 @@ class ConsoleApplication(Service):
 		data = np.asarray(data)
 		if len(data) == 0:
 			print("Cidade não existente na base de dados")
-			return None, None
+			return None, None, None, None
 
 		description = np.asarray(description)
 
@@ -125,6 +126,16 @@ class ConsoleApplication(Service):
 		lon = data[0, np.argwhere(description=="lon")[0]][0]
 		uf = data[0, np.argwhere(description=="UF")[0]][0]
 
+		return pop, lat, lon, uf
+
+	def _procurar_por_cidade(self):
+		city_name = self._get_city_name()
+
+		pop, lat, lon, uf = self._get_city(city_name)
+
+		if pop is None:
+			return
+		
 		print()
 		print("Cidade "+city_name+" encontrada.")
 		print("Estado:", uf)
@@ -245,3 +256,28 @@ class ConsoleApplication(Service):
 		plt.legend(["Temperatura mínima", "Temperatura máxima"])
 		plt.title("Histórico de temperatura na cidade de "+nome_cidade)
 		plt.show()
+
+	def _predizer_casos(self):
+		
+		city_name = self._get_city_name()
+		pop, _, _, _ = self._get_city(city_name)
+
+		features = get_clima(city_name, False)
+
+		if features is None:
+			return
+
+		features["Pop_estimada"] = int(pop.replace(".", ""))
+		features["Radiacao"] = 0
+		features["Max_vent"] = 0
+		features["Precipitacao"] = 0
+
+		response = self._send_request("Prediction", "predict", features)
+
+		if not response.sucess:
+			print("Não foi possível realizar a predição.")
+			print(response.response_data["message"])
+
+		prediction = response.response_data["prediction"]
+
+		print("Predizemos que nesse momento ocorrem", int(prediction), "casos de febre, dor de garganta ou tosse hospitalizados")
