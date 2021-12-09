@@ -4,7 +4,7 @@ from breath_api_interface.proxy import ServiceProxy
 from breath_api_interface.queue import Queue
 from breath_api_interface.service_interface import Service
 from breath_api_interface.request import Request, Response
-from ..data_requester.climate_request import get_clima
+from breath_main.data_requester import get_clima
 
 import unicodedata
 import sys
@@ -53,9 +53,9 @@ class ConsoleApplication(Service):
 		print("Escolha uma opção:")
 		print("1 - Construir base de dados")
 		print("2 - Dados climáticos atuais de qualidade do ar de uma cidade")
-		print("3 - Procurar por cidade")
-
+		
 		if self._configured:
+			print("3 - Procurar por cidade")
 			print("4 - Histórico de sintomas em uma cidade")
 			print("5 - Casos de sintomas em uma cidade por data")
 			print("6 - Histórico de temperatura em uma cidade (Aviso: em otimização)")

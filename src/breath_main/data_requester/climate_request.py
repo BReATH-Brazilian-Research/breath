@@ -1,6 +1,6 @@
 import requests, json, pdb, datetime
 
-def get_clima(city_name, print=True):
+def get_clima(city_name, print_in_terminal=True):
 
 	url = "https://community-open-weather-map.p.rapidapi.com/climate/month"
 
@@ -26,7 +26,7 @@ def get_clima(city_name, print=True):
 		now = datetime.datetime.now()
 
 		if prev > now:
-			if(print):
+			if(print_in_terminal):
 
 				print(f"Para {city}, na hora:", prev)
 				print("Umidade",round(item['humidity']),"%")
@@ -82,10 +82,10 @@ def get_clima(city_name, print=True):
 			#remaining = int(response.headers['x-ratelimit-requests-remaining'])
 	 		#print("You have %d requests left" % remaining)
 		else:
-			if(print):
+			if(print_in_terminal):
 				print("Nao pudemos achar os dados de qualidade do ar para sua cidade")
 	else:
-		if(print):
+		if(print_in_terminal):
 			print("Nao possuimos informacoes da sua cidade")
 
 	return result
