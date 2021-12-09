@@ -1,4 +1,4 @@
-from os import truncate
+import time 
 from breath_api_interface import request
 from breath_api_interface.proxy import ServiceProxy
 from breath_api_interface.queue import Queue
@@ -13,6 +13,8 @@ import datetime
 
 import numpy as np
 from matplotlib import pyplot as plt
+
+SEC_IN_DAY = 86400
 
 def strip_accents(text):
 	#https://stackoverflow.com/questions/44431730/how-to-replace-accented-characters
@@ -69,12 +71,12 @@ class ConsoleApplication(Service):
 		
 		elif opcao == 2:
 			get_clima()
-		elif opcao == -1:
+		elif opcao == 0:
 			self._send_request("SESSION_MANAGER", "exit")
 		elif self._configured:
 			if opcao == 3:
 				self._print_casos()
-			if opcao == 0:
+			if opcao == 4:
 				self._print_casos_dia()
 
 	def _get_city_name(self) -> str:
@@ -98,6 +100,10 @@ class ConsoleApplication(Service):
 
 		data = np.asarray(data)
 
+		if len(data) == 0:
+			print("Cidade não existente na base de dados")
+			return None, None
+
 		dias : np.ndarray= data[:, dia_index].flatten().astype(np.float32)
 		casos : np.ndarray = data[:, casos_index].flatten().astype(np.float32)
 
@@ -106,6 +112,9 @@ class ConsoleApplication(Service):
 	def _print_casos(self):
 		nome_cidade = self._get_city_name()
 		dias, casos = self._get_casos(nome_cidade)
+
+		if dias is None:
+			return
 
 		plt.plot(dias, casos)
 		plt.ylabel("Casos diários")
@@ -119,14 +128,33 @@ class ConsoleApplication(Service):
 		nome_cidade = self._get_city_name()
 		dias, casos = self._get_casos(nome_cidade)
 
+		if dias is None:
+			return
+
 		print("Digite o dia desejado no formato dd/mm/aaaa")
 		data = self._input()
 
-		dt = datetime.datetime.strptime(data, "%d/%m/%Y")
-		dia = dt.timestamp()/86400
+		try:
+			dt = datetime.datetime.strptime(data, "%d/%m/%Y")
+		except Exception:
+			print("Formato de dia incorreto.")
+			return
+
+		dia = dt.timestamp()/SEC_IN_DAY
 		dia = int(dia)
 
 		index = np.argwhere(dias == dia)
+
+		if len(index) == 0:
+			print("Data não disponível.")
+
+			data_min = datetime.datetime.fromtimestamp(dias.min()*SEC_IN_DAY).strftime("%d/%m/%Y")
+			data_max = datetime.datetime.fromtimestamp(dias.max()*SEC_IN_DAY).strftime("%d/%m/%Y")
+
+			print("Disponível datas entre: "+data_min+" e "+data_max)
+
+			return
+
 		casos_dia = casos[index].flatten()
 
 		print("Casos em "+ data + " na cidade de "+nome_cidade+": "+str(casos_dia[0]))
