@@ -2,6 +2,39 @@
 
 BReATH project aims to create a interface to visualize and get insights relating asthma and weather data.
 
+It depends on our other modules:
+- [breath_api_interface](https://github.com/BReATH-Brazilian-Research/breath_api_interface) to connect all our modules. [Gitlab mirror](https://gitlab.com/breath_unicamp/breath_api_interface).
+- [breath_data](https://github.com/BReATH-Brazilian-Research/breath_data) for data operations. [Gitlab mirror](https://gitlab.com/breath_unicamp/breath_api_interface)
+- [breath_ml](https://github.com/BReATH-Brazilian-Research/breath_ml) for machine learning operations. 
+
+<br>
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white) ![Tensorflow](https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=TensorFlow&logoColor=white) ![SQLite](https://img.shields.io/badge/SQLite-07405E?style=for-the-badge&logo=sqlite&logoColor=white) ![Numpy](https://img.shields.io/badge/Numpy-777BB4?style=for-the-badge&logo=numpy&logoColor=white) ![MatPlotLib](https://img.shields.io/badge/Matplotlib-11557C?style=for-the-badge)
+
+## How to execute:
+
+- Install `breath_main`: 
+  - Windows: `python -m pip install breath_main`
+  - Linux: `pip3 install breath_main`
+- Install `tensorflow`:
+  - Windows: `python -m pip install tensorflow`
+  - Linux: `pip3 install tensorflow`
+- Run breath_main:
+  - Windows: `python -m breath_main`
+  - Linux: `python3 -m breath_main`
+- Select operation in the menu (enter the desired option)
+
+## Features:
+
+We have some features implemented:
+
+- Search for some brazilian city in the data bank, returning its position, state and population; and making it available to perform other operations. Implements [#37](https://gitlab.com/breath_unicamp/breath-brazilian-research-of-atmosphere-towards-health/-/issues/37)
+- Plot a city's history of cases of fever, cough, or sore throat. Implements [#27](https://gitlab.com/breath_unicamp/breath-brazilian-research-of-atmosphere-towards-health/-/issues/27)
+- Show a city's cases in some specific date. Implements [#28](https://gitlab.com/breath_unicamp/breath-brazilian-research-of-atmosphere-towards-health/-/issues/28)
+- View current weather data in the city. Implements [#21](https://gitlab.com/breath_unicamp/breath-brazilian-research-of-atmosphere-towards-health/-/issues/21), [#13](https://gitlab.com/breath_unicamp/breath-brazilian-research-of-atmosphere-towards-health/-/issues/13), [#39](https://gitlab.com/breath_unicamp/breath-brazilian-research-of-atmosphere-towards-health/-/issues/39).
+- Predicts the occurrence of current cases of fever, flu or cough in the city. Implements [#33](https://gitlab.com/breath_unicamp/breath-brazilian-research-of-atmosphere-towards-health/-/issues/33).
+
+
 # Authors
 
 - [233840, Elton Cardoso do Nascimento](https://github.com/EltonCN)
@@ -49,6 +82,8 @@ __Code diagram__
 ### BReATH Map and Patient Portal:
 These containers have a Layering Structure that intends to be an MVC. Divided into View, the top layer, Model, the middle layer, and a ServiceProxy as the bottom layer and link with the session manager. We used the [Proxy](https://refactoring.guru/pt-br/design-patterns/proxy) Design Pattern because of the service request complexity.
 
+**In the current version, we are temporarily using ConsoleApplication, terminal version of the application**
+
 ![](images\Diagram_Portal.PNG)
 
 ### DataWorflow: 
@@ -59,6 +94,8 @@ This container acts as a data formatter and validator before saving it into the 
 ### DataRequester: 
 This container is responsible for requesting and receiving data from external APIs. Due to the possible asynchrony of the task, we used the [Observer](https://refactoring.guru/design-patterns/observer) design pattern to make sure the rest of the application could continue without problems. However, we also decided to implement the [abstract factory](https://refactoring.guru/design-patterns/abstract-factory) design once we could switch APIs or add new ones in the future.
 
+**It was put together as part of DataWorkflow**
+
 ![](images\Diagram_DataRequester.PNG)
 
 ### Prediction:
@@ -68,6 +105,8 @@ The Prediction module has an ML model, implemented in TensorFlow, used to predic
 
 ### BDAcessPoint:
 The access point uses a [factory](https://refactoring.guru/design-patterns/abstract-factory) Design pattern for the two possible databases to make the queries faster. The Design is divided through the GraphQuerier, RelationalQuerier, and RequestProcessor, which is the factory controller.
+
+**The graph database was not used**
 
 ![](images\Diagram_BD_AcessPoint.PNG)
 
