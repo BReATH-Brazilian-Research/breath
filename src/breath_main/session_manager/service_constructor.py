@@ -6,10 +6,11 @@ from breath_api_interface.service_interface import Service
 
 from breath_data import BDAcessPoint, DataWorkflow
 from breath_main.console_application import ConsoleApplication
+from breath_ml import Prediction
 
 import multiprocessing
 
-SERVICES = {"BDAcessPoint": BDAcessPoint, "DataWorkflow" : DataWorkflow, "ConsoleApplication": ConsoleApplication}
+SERVICES = {"BDAcessPoint": BDAcessPoint, "DataWorkflow" : DataWorkflow, "ConsoleApplication": ConsoleApplication, "Prediction":Prediction}
 
 def create_and_run_service(service_class, proxy, request_queue, global_response_queue):
     service : Service = service_class(proxy, request_queue, global_response_queue)

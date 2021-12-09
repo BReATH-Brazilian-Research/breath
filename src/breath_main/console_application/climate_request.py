@@ -15,6 +15,8 @@ def get_clima():
 
 	response = requests.request("GET", url, headers=headers, params=querystring)
 
+	result = None
+
 	clima_data = None
 	if response.status_code == 200:
 		clima_data = response.json()
@@ -29,6 +31,14 @@ def get_clima():
 			print("Pressão",round(item['pressure']),"Pa")
 			print("Máxima",round(item['temp']['average_max']-273,1),"ºC")
 			print("Mínima",round(item['temp']['average_min']-273,1),"ºC")
+
+			result = {}
+			result["Umidade"] = item['humidity']
+			result["Temp_max"] = item['temp']['average_max']-273
+			result["Temp_min"] = item['temp']['average_min']-273
+			result["Pressao_at_max"] = item["pressure"]
+			result["Pressao_at_min"] = item["pressure"]
+			result["Velocidade_vent"] = item["wind_speed"]
 			break
 
 	if clima_data is not None:
@@ -73,3 +83,5 @@ def get_clima():
 			print("Nao pudemos achar os dados de qualidade do ar para sua cidade")
 	else:
 		print("Nao possuimos informacoes da sua cidade")
+
+	return result
