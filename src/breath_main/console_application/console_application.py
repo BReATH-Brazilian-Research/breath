@@ -77,10 +77,12 @@ class ConsoleApplication(Service):
 		elif self._configured:
 			if opcao == 3:
 				self._print_casos()
-			if opcao == 4:
+			elif opcao == 4:
 				self._print_casos_dia()
-			if opcao == 5:
+			elif opcao == 5:
 				self._plot_temperatura()
+			elif opcao == 7:
+				self._register_symptom()
 
 	def _get_city_name(self) -> str:
 		print("Digite o nome da cidade")
@@ -185,7 +187,7 @@ class ConsoleApplication(Service):
 
 		print("Casos em "+ data + " na cidade de "+nome_cidade+": "+str(casos_dia[0]))
 	
-	def register_symptom(self) -> bool:
+	def _register_symptom(self) -> bool:
 		# Registrar paciente
 		email = input("Qual o seu email?\n")
 
