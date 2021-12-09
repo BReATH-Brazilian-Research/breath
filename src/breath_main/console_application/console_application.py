@@ -34,16 +34,21 @@ class ConsoleApplication(Service):
 
 		sys.stdin = open(0)
 		self._configured = False
+		self._city = None
 
 	def _input(self):
 		return sys.stdin.readline()[:-1]
 
 	def run(self):
-
+		
 		if not self._configured:
 			response = self._send_request("BDAcessPoint", "is_workflow_runned", {"workflow_name":"BDDownloader"})
 			if response.sucess == True:
 				self._configured = True
+
+		print()
+		if self._city is not None:
+			print("Cidade atual:", self._city)
 
 		print("Escolha uma opção:")
 		print("1 - Construir base de dados")
@@ -53,9 +58,8 @@ class ConsoleApplication(Service):
 			print("3 - Histórico de sintomas em uma cidade")
 			print("4 - Casos de sintomas em uma cidade por data")
 			print("5 - Histórico de temperatura em uma cidade (Aviso: em otimização)")
-			print("5 - Probablidade de doenças agora")
-			print("6 - Registrar meus sintomas")
-			print("7 - Ver histórico de sintomas")
+			print("8 - Procurar por cidade")
+			print("9 - Limpar cidade atual")
 		print("0 - Sair da aplicação")
 
 		
@@ -81,8 +85,15 @@ class ConsoleApplication(Service):
 				self._print_casos_dia()
 			if opcao == 5:
 				self._plot_temperatura()
+			if opcao == 8:
+				self._procurar_por_cidade()
+			if opcao == 9:
+				self._clear_city()
 
 	def _get_city_name(self) -> str:
+		if self._city is not None:
+			return self._city
+
 		print("Digite o nome da cidade")
 		
 		nome_cidade = self._input()
@@ -90,6 +101,44 @@ class ConsoleApplication(Service):
 		nome_cidade = str.lower(nome_cidade)
 
 		return nome_cidade
+	
+	def _clear_city(self):
+		self._city = None
+
+	def _procurar_por_cidade(self):
+		city_name = self._get_city_name()
+
+		response = self._send_request("BDAcessPoint", "get_city", {"city_name":city_name})
+
+		data = response.response_data["data"]
+		description = response.response_data["description"]
+
+		data = np.asarray(data)
+		if len(data) == 0:
+			print("Cidade não existente na base de dados")
+			return None, None
+
+		description = np.asarray(description)
+
+		pop = data[0, np.argwhere(description=="Pop_estimada")[0]][0]
+		lat = data[0, np.argwhere(description=="lat")[0]][0]
+		lon = data[0, np.argwhere(description=="lon")[0]][0]
+		uf = data[0, np.argwhere(description=="UF")[0]][0]
+
+		print()
+		print("Cidade "+city_name+" encontrada.")
+		print("Estado:", uf)
+		print("População estimada:", pop)
+		print("Posição geográfica:", "lat", lat, "lon", lon)
+
+		print()
+		print("Você deseja manter a cidade como a cidade atual para as próximas consultas?")
+		print("1 - Sim, Outros - Não")
+
+		resp = self._input()
+		if resp == '1':
+			self._city = city_name
+
 
 	def _get_casos(self, nome_cidade):
 		response = self._send_request("BDAcessPoint", "get_casos", {"city_name":nome_cidade})
