@@ -50,7 +50,7 @@ class ConsoleApplication(Service):
 		#else:
 		#    print("Erro: ", response.response_data["message"])
 	
-	def register_symptom(self) -> None:
+	def register_symptom(self) -> bool:
 		# Registrar paciente
 		email = input("Qual o seu email?")
 
@@ -59,9 +59,6 @@ class ConsoleApplication(Service):
 
 		# Registrar tipo de sintoma
 		symptom_name = input("Qual sintoma você deseja registrar?")
-		response : Response = self._send_request("BDAcessPoint", "register_symptom_type", request_info={"symptom_name": symptom_name})
-		if (response.sucess == False):
-			print(response.response_data["mensagem"])
 
 		# Coletar tempo
 		today = date.today()
@@ -71,9 +68,9 @@ class ConsoleApplication(Service):
 		year = int(today_str[6:])
 
 		# Registrar sintoma
-		reponse : Response = self._send_request("BDAcessPoint", "register_symptom", request_info={"symptom_name": symptom_name,"year":year,"month":month,"day":day})
+		response : Response = self._send_request("BDAcessPoint", "register_symptom", request_info={"symptom_name": symptom_name,"year":year,"month":month,"day":day,"patient_id":email,"city":city})
 		if (response.sucess == False):
 			print(response.response_data["mensagem"])
-		return
+		return response.sucess
 
 	
