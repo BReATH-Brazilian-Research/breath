@@ -6,7 +6,7 @@ from breath_main.session_manager.request_manager.request_handler import RequestH
 class ResponseHandler(RequestHandler):
 
     def __init__(self, global_response_queue:Queue):
-        super().__init__()
+        super().__init__(global_response_queue)
 
         self._response_queues : Dict[str, Queue] = {}
         self._global_response_queue = global_response_queue
