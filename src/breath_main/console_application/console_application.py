@@ -36,6 +36,8 @@ class ConsoleApplication(Service):
 
 		if opcao == 2:
 			get_clima()
+		elif opcao == 5:
+			self.register_symptom()
 		elif opcao == 7:
 			self._send_request("SESSION_MANAGER", "exit")
 		return True
